@@ -1,26 +1,27 @@
 package com.mesmusics;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.MediaStore;
-import android.util.Log;
-import java.io.File;
-import java.lang.reflect.Field;
+
 import java.util.ArrayList;
 
 public class AudioFileManager {
     ArrayList<AudioFile> audioFiles;
-    MediaMetadataRetriever metadataRetriever;   // a voir
+    MediaMetadataRetriever metadataRetriever;
 
     public AudioFileManager(ArrayList<AudioFile> audioFiles) {
         this.audioFiles = audioFiles;
-        this.metadataRetriever = new MediaMetadataRetriever();  // avoir
+        this.metadataRetriever = new MediaMetadataRetriever();
     }
 
     public AudioFileManager() {
         this.audioFiles = new ArrayList<AudioFile>();
+
     }
 
     public ArrayList<AudioFile> getAudioFiles() {
@@ -28,58 +29,46 @@ public class AudioFileManager {
     }
 
     public void putAllAudioFromDevice(final Context context) {
-        final ArrayList<AudioFile> tempAudioFiles = new ArrayList<>();
 
-
-        Uri uri = Uri.parse("android.resource://com.mesmusics/raw/");
-        File f = new File("android.resource://com.mesmusics/raw/son.wav");
-        Field[] fields = R.raw.class.getFields();
-        for(int count=0; count < fields.length; count++){
-            Log.i("Raw Asset: ", fields[count].getName());
-            AudioFile audioFile = new AudioFile();
-            metadataRetriever.setDataSource(f.getAbsolutePath());
-            String path = metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST);
-            String name = MediaStore.Audio.AudioColumns.TITLE;
-            String album = MediaStore.Audio.AudioColumns.TITLE;
-            String artist = MediaStore.Audio.AudioColumns.TITLE;
-
-            audioFile.setTitle(name);
-            audioFile.setAlbum(album);
-            audioFile.setArtist(artist);
-            audioFile.setPath(path);
-
-            Log.e("Name :" + name, " Album :" + album);
-            Log.e("Path :" + path, " Artist :" + artist);
-
-            tempAudioFiles.add(audioFile);
+        ContentResolver musicResolver = context.getContentResolver();
+        Uri musicUri ;//= MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            musicUri = MediaStore.Audio.Media.getContentUri(MediaStore.VOLUME_EXTERNAL);
+        } else {
+            musicUri = MediaStore.Audio.Media.INTERNAL_CONTENT_URI;
         }
 
+        System.out.println(musicUri.toString());
+        String[] projection = {
+                MediaStore.Audio.Media.DATA,
+                MediaStore.Audio.Media.TITLE,
+                MediaStore.Audio.Media.ALBUM,
+                MediaStore.Audio.Media.ARTIST,
+                MediaStore.Audio.Media.DURATION
+        };
+        Cursor musicCursor = musicResolver.query(musicUri, projection, MediaStore.Audio.Media.IS_MUSIC, null, null);
 
-        String[] projection = {MediaStore.Audio.AudioColumns.DATA, MediaStore.Audio.AudioColumns.TITLE, MediaStore.Audio.AudioColumns.ALBUM, MediaStore.Audio.ArtistColumns.ARTIST};
-        Cursor c = context.getContentResolver().query(uri, projection, MediaStore.Audio.Media.DATA + " like ? ", new String[]{"%utm%"}, null);
 
-     /*   if (c != null) {
-            while (c.moveToNext()) {
-                AudioFile audioFile = new AudioFile();
-                String path = c.getString(0);
-                String name = c.getString(1);
-                String album = c.getString(2);
-                String artist = c.getString(3);
-
-                audioFile.setTitle(name);
-                audioFile.setAlbum(album);
-                audioFile.setArtist(artist);
-                audioFile.setPath(path);
-
-                Log.e("Name :" + name, " Album :" + album);
-                Log.e("Path :" + path, " Artist :" + artist);
-
-                tempAudioFiles.add(audioFile);
+        if(musicCursor!=null && musicCursor.moveToFirst()){
+            System.out.println("music cursor pas null !!!!!!!!!!!!!!");
+            //get columns
+            String path = musicCursor.getString(0);
+            String title = musicCursor.getString(1);
+            String album = musicCursor.getString(2);
+            String artist = musicCursor.getString(3);
+            String duration = musicCursor.getString(4);
+            //add songs to list
+            do {
+                audioFiles.add(new AudioFile(path, title, album, artist, duration));
             }
-            c.close();
-        }*/
-        this.audioFiles = tempAudioFiles;
+            while (musicCursor.moveToNext());
+            System.out.println("album : "+ audioFiles.get(0).getAlbum());
+            System.out.println("duree : "+audioFiles.get(0).getDuration());
+            System.out.println("artiste : "+audioFiles.get(0).getArtist());
+            System.out.println("titre : "+audioFiles.get(0).getTitle());
+            System.out.println("path : "+audioFiles.get(0).getPath());
+        }
+        else
+            System.out.println("il est vide !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
     }
 }
-
-

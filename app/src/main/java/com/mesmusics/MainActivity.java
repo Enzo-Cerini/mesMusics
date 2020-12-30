@@ -2,67 +2,86 @@ package com.mesmusics;
 
 import  androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+
 import android.Manifest;
+import android.content.ContentResolver;
+import android.content.Context;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import com.mesmusics.adaptater.AudioAdaptater;
+
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     MediaPlayer music;
-    AudioFileManager audioFileManager = new AudioFileManager();
     boolean isRunning = false;
+
+    ArrayList<AudioFile> audioFiles = new ArrayList<AudioFile>();
+
+    private AudioFileManager audioFileManager;
+    private ListView audioView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        audioView = (ListView)findViewById(R.id.lv);
+        audioFileManager = new AudioFileManager();
+        audioFileManager.putAllAudioFromDevice(this);
+
+        AudioAdaptater audioAdpt = new AudioAdaptater(this, audioFileManager.getAudioFiles());
+        audioView.setAdapter(audioAdpt);
+
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            if(shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE) == true) {
+            if(shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE))
                 System.out.println("deja demandé ");
-            }
-            else {
-                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 2);
-            }
+            else
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},2);
         }
         else {
-            System.out.println("TOUTT MARRCHE BIEN");
+            System.out.println("Permission OK");
         }
 
-        music = new MediaPlayer();
+        //putAllAudioFromDevice();
+        //EXISTANT
+        //   audioFileManager.getAudioFiles().add(new AudioFile("url","titre","album","artiste"));
+        //   audioFileManager.getAudioFiles().add(new AudioFile("url1","titre1","album1","artiste1"));
+        /////
+
         try {
+
+            ArrayList<String> arrayList = new ArrayList<String>();
+            ArrayAdapter<String> adapterView = new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_spinner_item, arrayList);
+            // ((ListView)findViewById(R.id.lv)).setAdapter(adapterView);
+
+            music = new MediaPlayer();
             music.setDataSource(this,Uri.parse("android.resource://com.mesmusics/raw/son"));
             music.prepare();
-            audioFileManager.putAllAudioFromDevice(this);
-            System.out.println(audioFileManager.getAudioFiles());
-          /*  ArrayList<String> arrayList = new ArrayList<String>();
-            arrayList.add("fffff");
-            arrayList.add("fffff");
-            arrayList.add("fffff");
-            arrayList.add("fffff");
-            ArrayAdapter<String> adapterView = new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_spinner_item, arrayList);
 
-
-            ((ListView)findViewById(R.id.lv)).setAdapter(adapterView);
-*/
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public void playSoundHandler(View view) {
-        if(isRunning) {
+        if(isRunning)
             pauseSound();
-        }
-        else {
+        else
             playSound();
-        }
     }
     public void playSound() {
-       isRunning = true;
+        isRunning = true;
         music.start();
     }
     public void pauseSound(){
@@ -70,15 +89,3 @@ public class MainActivity extends AppCompatActivity {
         music.pause();
     }
 }
-
-  /*  String path = Environment.getExternalStorageDirectory().toString()+"/Pictures";
-Log.d("Files", "Path: " + path);
-        File f = new File(path);
-        File file[] = f.listFiles();
-        Log.d("Files", "Size: "+ file.length);
-        for (int i=0; i < file.length; i++)
-        {
-        //here populate your listview
-        Log.d("Files", "FileName:" + file[i].getName());
-        }*/
-
