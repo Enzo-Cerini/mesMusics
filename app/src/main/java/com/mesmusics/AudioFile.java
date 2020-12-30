@@ -6,12 +6,14 @@ public class AudioFile {
     String title;
     String album;
     String artist;
+    String duration;
 
-    public AudioFile(String path, String title, String album, String artist) {
+    public AudioFile(String path, String title, String album, String artist, String duration) {
         this.path = path;
         this.title = title;
         this.album = album;
         this.artist = artist;
+        this.duration = duration;
     }
 
     public AudioFile() {
@@ -19,6 +21,11 @@ public class AudioFile {
         this.title = null;
         this.album = null;
         this.artist = null;
+        this.duration = null;
+    }
+
+    public String getDuration() {
+        return duration;
     }
 
     public String getPath() {
