@@ -14,16 +14,15 @@ import java.util.ArrayList;
 
 public class AudioFileManager {
     ArrayList<AudioFile> audioFiles;
-    MediaMetadataRetriever metadataRetriever;
+    MediaMetadataRetriever metadataRetriever;   // a voir
 
     public AudioFileManager(ArrayList<AudioFile> audioFiles) {
         this.audioFiles = audioFiles;
-        this.metadataRetriever = new MediaMetadataRetriever();
+        this.metadataRetriever = new MediaMetadataRetriever();  // avoir
     }
 
     public AudioFileManager() {
         this.audioFiles = new ArrayList<AudioFile>();
-
     }
 
     public ArrayList<AudioFile> getAudioFiles() {
@@ -34,8 +33,8 @@ public class AudioFileManager {
         final ArrayList<AudioFile> tempAudioFiles = new ArrayList<>();
 
 
-        Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
-        String[] projection = {MediaStore.Audio.AudioColumns.DATA, MediaStore.Audio.AudioColumns.TITLE, MediaStore.Audio.AudioColumns.ALBUM, MediaStore.Audio.ArtistColumns.ARTIST,};
+        Uri uri = Uri.parse("android.resource://com.mesmusics/raw/");
+        String[] projection = {MediaStore.Audio.AudioColumns.DATA, MediaStore.Audio.AudioColumns.TITLE, MediaStore.Audio.AudioColumns.ALBUM, MediaStore.Audio.ArtistColumns.ARTIST};
         Cursor c = context.getContentResolver().query(uri, projection, MediaStore.Audio.Media.DATA + " like ? ", new String[]{"%utm%"}, null);
 
         if (c != null) {

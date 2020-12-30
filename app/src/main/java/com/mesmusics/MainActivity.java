@@ -41,7 +41,9 @@ public class MainActivity extends AppCompatActivity {
         try {
             music.setDataSource(this,Uri.parse("android.resource://com.mesmusics/raw/son"));
             music.prepare();
-            ArrayList<String> arrayList = new ArrayList<String>();
+            audioFileManager.putAllAudioFromDevice(this);
+            System.out.println(audioFileManager.getAudioFiles());
+          /*  ArrayList<String> arrayList = new ArrayList<String>();
             arrayList.add("fffff");
             arrayList.add("fffff");
             arrayList.add("fffff");
@@ -50,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
 
             ((ListView)findViewById(R.id.lv)).setAdapter(adapterView);
-
+*/
         } catch (IOException e) {
             e.printStackTrace();
         }
