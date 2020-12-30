@@ -4,6 +4,7 @@ import  androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -52,13 +53,13 @@ public class MainActivity extends AppCompatActivity {
         //audioFileManager.putAllAudioFromDevice(this);
 
        // music = new MediaPlayer();
-        audioFileManager.putAllAudioFromDevice(this);
+        /*audioFileManager.putAllAudioFromDevice(this);
         music = new MediaPlayer();
         try {
             music.setDataSource( audioFileManager.getAudioFiles().get(0).getPath());
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
 
       /*  try {
             music.setDataSource(this,MediaStore.Audio.Media.EXTERNAL_CONTENT_URI);
@@ -66,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         } */
-        System.out.println(Uri.parse("/sdcard/Music/son.wav"));
+        //System.out.println(Uri.parse("/sdcard/Music/son.wav"));
         //music = MediaPlayer.create(this, MediaStore.Audio.Media.EXTERNAL_CONTENT_URI);
            // music = MediaPlayer.create(this, R.raw.son);
        // }
@@ -75,6 +76,19 @@ public class MainActivity extends AppCompatActivity {
 
            // audioFileManager.putAllAudioFromDevice(this);
     }
+
+    public static MediaPlayer create (Context context, int resid){
+        MediaPlayer media = MediaPlayer.create(getContext(), R.raw.file);
+        return media;
+    }
+
+    public static MediaPlayer create (Context context, Uri uri){
+        MediaPlayer media = MediaPlayer.create(getContext(),);
+        media = MediaPlayer.create(getContext(), Uri.parse("android.ressource://com.mesmusics/raw/son.wav");
+        media = MediaPlayer.create(getContext(), Uri.parse("android.ressource://com.mesmusics/raw/son2.wav");
+        return media;
+    }
+
 
     public void playSoundHandler(View view) {
         if(isRunning) {
