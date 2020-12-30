@@ -4,17 +4,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
-
-
 import java.io.File;
 import java.lang.reflect.Field;
-import java.nio.file.Path;
 import java.util.ArrayList;
-
-
 
 public class AudioFileManager {
     ArrayList<AudioFile> audioFiles;

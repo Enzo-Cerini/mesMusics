@@ -2,19 +2,13 @@ package com.mesmusics;
 
 import  androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     MediaPlayer music;
@@ -27,11 +21,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            if(shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE) == true)
+            if(shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE) == true) {
                 System.out.println("deja demandé ");
-
-            else
-                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},2);
+            }
+            else {
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 2);
+            }
         }
         else {
             System.out.println("TOUTT MARRCHE BIEN");
@@ -61,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
     public void playSoundHandler(View view) {
         if(isRunning) {
             pauseSound();
-
         }
         else {
             playSound();
@@ -75,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
         isRunning = false ;
         music.pause();
     }
-
 }
 
   /*  String path = Environment.getExternalStorageDirectory().toString()+"/Pictures";
