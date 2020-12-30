@@ -9,16 +9,12 @@
     android:visibility="visible"
     tools:context=".MainActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler"
+    <ListView
+        android:id="@+id/lv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingTop="16dp"
-        android:paddingBottom="130dp"
-        tools:ignore="MissingClass">
-    </androidx.recyclerview.widget.RecyclerView>
+        tools:layout_editor_absoluteX="91dp"
+        tools:layout_editor_absoluteY="108dp" />
 
     <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
