@@ -8,14 +8,19 @@
     android:layout_height="match_parent"
     android:visibility="visible"
     tools:context=".MainActivity">
+
     <ListView
         android:id="@+id/lv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="91dp"
-        tools:layout_editor_absoluteY="108dp" />
+        android:layout_marginBottom="110dp"
+        app:layout_constraintBottom_toTopOf="@+id/toolbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -68,12 +73,14 @@
                     android:id="@+id/iv_previous"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
+                    android:contentDescription="@+String/previous music"
                     android:src="@drawable/selector_previous" />
 
                 <ImageView
                     android:id="@+id/iv_play"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
+                    android:contentDescription="@+String/play pause"
                     android:onClick="playSoundHandler"
                     android:src="@drawable/selector_play" />
 
@@ -81,6 +88,7 @@
                     android:id="@+id/iv_next"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
+                    android:contentDescription="@+String/next music"
                     android:src="@drawable/selector_next" />
 
 
@@ -120,6 +128,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.82"
-        app:srcCompat="@android:drawable/ic_menu_search" />
+        app:srcCompat="@android:drawable/ic_menu_search"
+        android:contentDescription="@+String/found music" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

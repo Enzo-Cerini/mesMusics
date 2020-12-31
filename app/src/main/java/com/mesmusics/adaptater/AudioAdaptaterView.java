@@ -1,27 +1,33 @@
 package com.mesmusics.adaptater;
 
 import android.content.Context;
+import android.media.MediaPlayer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mesmusics.AudioFile;
 import com.mesmusics.R;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
-public class AudioAdaptater  extends BaseAdapter {
+public class AudioAdaptaterView extends BaseAdapter {
 
-    private ArrayList<AudioFile> audioFiles;
-    private LayoutInflater audioInf;
+    private final ArrayList<AudioFile> audioFiles;
+    private final LayoutInflater audioInf;
+    private final MediaPlayer mediaPlayer;
 
-    public AudioAdaptater(Context c, ArrayList<AudioFile> audioFiles){
+    public AudioAdaptaterView(Context c, ArrayList<AudioFile> audioFiles, MediaPlayer mediaPlayer){
         this.audioFiles = audioFiles;
         this.audioInf =LayoutInflater.from(c);
+        this.mediaPlayer = mediaPlayer;
     }
 
     @Override
@@ -31,7 +37,7 @@ public class AudioAdaptater  extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return audioFiles.get(position);
     }
 
     @Override
@@ -59,6 +65,24 @@ public class AudioAdaptater  extends BaseAdapter {
 
         //set position as tag
         audioLay.setTag(position);
+        audioLay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    if(mediaPlayer.isPlaying()){
+                        mediaPlayer.stop();
+                        mediaPlayer.reset();
+                    }
+                    mediaPlayer.setDataSource(  audioFiles.get((Integer)v.getTag()).getPath() );
+                    mediaPlayer.prepare();
+                    mediaPlayer.start();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                System.out.println( audioFiles.get((Integer)v.getTag()).getDuration() );
+            }
+        });
         return audioLay;
     }
+
 }
