@@ -18,9 +18,12 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.IBinder;
 import android.provider.MediaStore;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.MediaController;
 import android.widget.Toast;
 
 import com.mesmusics.adaptater.AudioAdaptaterView;
@@ -28,36 +31,49 @@ import com.mesmusics.adaptater.AudioAdaptaterView;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MediaController.MediaPlayerControl {
 
+    private static final int MY_PERMISSION_REQUEST = 1;
     private AudioService audioService;
     private Intent playIntent;
     private boolean audioBound = false;
-
-    private static final int MY_PERMISSION_REQUEST = 1;
-    ArrayAdapter<String> adapter;
-    MediaPlayer mediaPlayer;
-    ArrayList<String> testList;
-
+    private MediaPlayer mediaPlayer;
     private AudioAdaptaterView audioAdaptaterView;
-    //private ArrayList<AudioFile> audioFiles;
     private AudioFileManager audioFileManager;
-    private ListView audioFileView;
+    private AudioController audioController;
+    private boolean paused = false;
+    private boolean playbackpaused = true;
+
     boolean isRunning = false;
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults){
+        switch (requestCode){
+            case MY_PERMISSION_REQUEST: {
+                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    if(ContextCompat.checkSelfPermission(MainActivity.this,
+                            Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+                        Toast.makeText(this, "Permission granted!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else {
+                    Toast.makeText(this, "No permission granted!",Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+                return;
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE))
-                ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSION_REQUEST);
-            else
-                ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSION_REQUEST);
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSION_REQUEST);
         } else {
-            doStuff();
+            setAudioController();
         }
     }
 
@@ -70,14 +86,15 @@ public class MainActivity extends AppCompatActivity {
             startService(playIntent);
         }
     }
-    private ServiceConnection audioConnection = new ServiceConnection(){
 
+    private ServiceConnection audioConnection = new ServiceConnection(){
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-            AudioService.MusicBinder binder = (AudioService.MusicBinder)service;
+            AudioService.AudioBinder binder = (AudioService.AudioBinder)service;
             //get service
             audioService = binder.getService();
-            //pass list
+            //init list and view and pass it
+            initAudios();
             audioService.setAudioFiles(audioFileManager.getAudioFiles());
             audioBound = true;
         }
@@ -88,106 +105,178 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    public void doStuff(){
-        mediaPlayer = new MediaPlayer();
-        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                if(false) {
-                    mp.stop();
-                    mp.reset();
-                    try {
-                        mp.setDataSource("");
-                        mp.prepare();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    mp.start();
-                }
-                else {
-                    mediaPlayer.stop();
-                    mediaPlayer.reset();
-                }
-            }
-        });
-        //mediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.son);
-        ListView listView = (ListView) findViewById(R.id.lv);
+    public void initAudios(){
+        ListView listView = findViewById(R.id.lv);
         audioFileManager = new AudioFileManager();
         audioFileManager.getAllAudioFileFromDevice(this);
-        audioAdaptaterView = new AudioAdaptaterView(this, audioFileManager.getAudioFiles(), mediaPlayer);
+        audioService.setAudioFiles(audioFileManager.getAudioFiles());
+        audioAdaptaterView = new AudioAdaptaterView(this, audioFileManager.getAudioFiles(), audioService);
         listView.setAdapter(audioAdaptaterView);
-
-
-
-
-
-
-
-        //listView.setAdapter(adapter);
-
-    }
-
-    public void getMusic() {
-        ContentResolver contentResolver = getContentResolver();
-        Uri songUri = MediaStore.Audio.Media.INTERNAL_CONTENT_URI;
-        Cursor songCursor = contentResolver.query(songUri, null, null, null, null);
-
-        if (songCursor != null && songCursor.moveToFirst()) {
-            int songTitle = songCursor.getColumnIndex(MediaStore.Audio.Media.TITLE);
-            int songArtist = songCursor.getColumnIndex(MediaStore.Audio.Media.ARTIST);
-            int songLocation = songCursor.getColumnIndex(MediaStore.Audio.Media.DATA);
-            do {
-                String currentTitle = songCursor.getString(songTitle);
-                String currentArtist = songCursor.getString(songArtist);
-                String currentLocation = songCursor.getString(songLocation);
-                testList.add(currentTitle + "\n" + currentArtist+ "\n" + currentLocation);
-            } while (songCursor.moveToNext());
-        }
-        else
-            Toast.makeText(this, "Aucun fichier audio trouvé",Toast.LENGTH_LONG).show();
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults){
-        switch (requestCode){
-            case MY_PERMISSION_REQUEST: {
-                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                    if(ContextCompat.checkSelfPermission(MainActivity.this,
-                            Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
-                        Toast.makeText(this, "Permission granted!", Toast.LENGTH_SHORT).show();
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch ( item.getItemId() ){
+            case R.id.shuffle:
+                audioService.setShuffle();
+                break;
 
-                        doStuff();
-                    }
-                }
-                else {
-                    Toast.makeText(this, "No permission granted!",Toast.LENGTH_SHORT).show();
-                    finish();
-                }
-                return;
-            }
+            case R.id.iv_play:
+                playSound();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    //play next
+    private void playNext(){
+        audioService.playNext();
+        if(playbackpaused){
+            setAudioController();
+            playbackpaused = false;
+        }
+        audioController.show(0);
+    }
+
+    //play previous
+    private void playPrev(){
+        audioService.playPrev();
+        if(playbackpaused){
+            setAudioController();
+            playbackpaused = false;
+        }
+        audioController.show(0);
+    }
+
+
+    public void audioPicked(View view){
+        //audioService.setAudio( (Integer)view.getTag() );
+        if(playbackpaused) {
+            // ((ImageView)findViewById(R.id.iv_play)).setImageRessource();
+            audioService.playAudio();
+            playbackpaused = false;
+        }
+        else{
+            audioService.pausePlayer();
+            playbackpaused = true;
         }
     }
 
-        //putAllAudioFromDevice();
-        //EXISTANT
-        //   audioFileManager.getAudioFiles().add(new AudioFile("url","titre","album","artiste"));
-        //   audioFileManager.getAudioFiles().add(new AudioFile("url1","titre1","album1","artiste1"));
-        /////
-    public void azert(){
-        try {
-
-            ArrayList<String> arrayList = new ArrayList<String>();
-            ArrayAdapter<String> adapterView = new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_spinner_item, arrayList);
-            // ((ListView)findViewById(R.id.lv)).setAdapter(adapterView);
-
-            mediaPlayer = new MediaPlayer();
-            mediaPlayer.setDataSource(this,Uri.parse(Environment.getExternalStorageDirectory()+"/Music/abc.mp3"));
-            mediaPlayer.prepare();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void setAudioController(){
+        audioController = new AudioController(this);
+        audioController.setPrevNextListeners(view -> playNext(), view -> playPrev());
     }
+
+    public AudioController getAudioController(){
+        return this.audioController;
+    }
+
+    public boolean getPlaybackPaused(){
+        return playbackpaused;
+    }
+
+    public void setPlaybackPaused(boolean playbackpaused){
+        this.playbackpaused = playbackpaused;
+    }
+
+
+
+
+    @Override
+    public void onDestroy() {
+        stopService(playIntent);
+        super.onDestroy();
+    }
+
+
+    @Override
+    public void start() {
+        audioService.startAudio();
+    }
+
+    @Override
+    public void pause() {
+        playbackpaused = true;
+        audioService.pausePlayer();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        paused = true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        paused = false;
+    }
+
+    @Override
+    protected void onStop() {
+        audioController.hide();
+        super.onStop();
+    }
+
+    @Override
+    public int getDuration() {
+        if(audioService != null && audioBound)
+            return audioService.getDuration();
+        else
+            return 0;
+    }
+
+    @Override
+    public int getCurrentPosition() {
+        if(audioService != null && audioBound && audioService.isPlaying())
+            return audioService.getPos();
+        else
+            return 0;
+    }
+
+    @Override
+    public void seekTo(int pos) {
+        audioService.seek(pos);
+    }
+
+    @Override
+    public boolean isPlaying() {
+        if(audioService != null && audioBound )
+            return audioService.isPlaying();
+        else
+            return false;
+    }
+
+    @Override
+    public boolean canPause() {
+        return true;
+    }
+
+    @Override
+    public boolean canSeekBackward() {
+        return true;
+    }
+
+    @Override
+    public boolean canSeekForward() {
+        return true;
+    }
+
+
+
+
+    @Override
+    public int getBufferPercentage() {
+        return 0;
+    }
+
+    @Override
+    public int getAudioSessionId() {
+        return 0;
+    }
+
+
+
 
     public void playSoundHandler(View view) {
         if(isRunning)
@@ -203,4 +292,5 @@ public class MainActivity extends AppCompatActivity {
         isRunning = false ;
         mediaPlayer.pause();
     }
+
 }
