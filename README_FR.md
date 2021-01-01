@@ -14,18 +14,18 @@ De plus, il a également la possibilité de contrôler celle-ci grâce aux capte
 L’utilisateur peut créer ses playlists ou utiliser celle crée automatiquement par l’application. 
 Il pourra également utiliser l’application en arrière-plan ou profiter de celle-ci avec le téléphone verrouillé.
 
-* **But de l'application**
+## But de l'application
   *	Ecouter de la musique (arrière-plan, premier-plan et téléphone vérrouillé)
   * Regroupez toute la musique contenue dans le téléphone.
   *	Afficher tous les détails des chansons (à partir d'une base de données en ligne).
   *	Utilisez des détecteurs de mouvement pour contrôler la lecture.
   *	Créer des playlists.
 
-* Activities
-* Intents
-* Background Services/Threads
-* Sensor(s) used
-* Etc.
+## Activities
+## Intents
+## Background Services/Threads
+## Sensor(s) used
+## Auteur.
 
 
 **_Projet réalisé par :_**
