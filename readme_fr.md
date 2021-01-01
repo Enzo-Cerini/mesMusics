@@ -39,19 +39,45 @@ Cette procédure nous permet de créer l'instance de notre application.
 ### La procédure **_onStart()_**
 Cette procédure nous permet de mettre en marche notre application.
 
-## Intents
+## Intentions
 Notre applications se décompose en activités distinctes les unes des autres. 
 Nos méthodes dans notre **MainActivity** doivent pouvoir s'enchaîner, s'appeler, retourner à leur activité principale. 
 C'est pourquoi il faut mettre en place cette communication entres-elles en utilisant des **intentions**.
 Celles-ci permettent d'envoyer des messages d'une activité vers une autre avec des données pour les activer.
+Aisi, nous utilisons un **Intent** nommé *playIntent* qui nous permet de lancer notre application à travers la méthode **onStart()**. Cette Intent est également utilisé lors que l'application est détruite, soit la méthode **onDestroy()**.
 
-Dans ce contexte, il faut se demander si l'activité mère, quand elle lance une autre
+## Classes
+
+### AudioFile
+La classe **AudioFile** nous permet de récupérer toute les informations que notre musique.
+Elle contient donc, l'id, le chemin, le titre, l'album, l'artiste et la durrée de la musique.
+Nous avons donc mis en place les *getter()* et les *setter()* afin de pouvoir récuperer chaque informations utiles tels que *getTitle()* ou encore *setTitle()*.
+
+### AudioFileManager
+La classe **AudioFileManager** nous permet de stocker les différentes musiques en les conservant dans un tableau de type *ArrayList<AdioFile>*.
+ 
+### AudioService
+La classe **AudioService** hérite de la classe **Service** et implémentes les différentes interfaces suivantes :
+* **MediaPlayer.OnPreparedListener**
+* **MediaPlayer.OnErrorListener**
+* **MediaPlayer.OnCompletionListener**
+
+Cette classe nous permet de mettre en place les différentes fonctionnalités désirées par l'utilisateur. Elle permet donc de mettre en marche les différents boutons mis en place sur notre applications tels que :
+ * Play
+ * Pause
+ * Suivant 
+ * Précédent
+ * Aléatoire
+
+## Permissions 
+
 ## Background Services/Threads
+
 ## Sensor(s) used
+
 ## Autres
+
 ## Auteurs
-
-
 **_Projet réalisé par :_**
 * **_Salma BENCHELKHA_**
 * **_Mouncif LEKMITI_**
