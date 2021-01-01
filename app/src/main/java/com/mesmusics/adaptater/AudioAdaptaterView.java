@@ -12,6 +12,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mesmusics.AudioFile;
+import com.mesmusics.AudioService;
+import com.mesmusics.MainActivity;
 import com.mesmusics.R;
 
 import java.io.IOException;
@@ -22,12 +24,14 @@ public class AudioAdaptaterView extends BaseAdapter {
 
     private final ArrayList<AudioFile> audioFiles;
     private final LayoutInflater audioInf;
-    private final MediaPlayer mediaPlayer;
+    private final AudioService audioService;
+    private final Context context;
 
-    public AudioAdaptaterView(Context c, ArrayList<AudioFile> audioFiles, MediaPlayer mediaPlayer){
+    public AudioAdaptaterView(Context c, ArrayList<AudioFile> audioFiles, AudioService audioService){
         this.audioFiles = audioFiles;
         this.audioInf =LayoutInflater.from(c);
-        this.mediaPlayer = mediaPlayer;
+        this.audioService = audioService;
+        this.context = c;
     }
 
     @Override
@@ -64,22 +68,19 @@ public class AudioAdaptaterView extends BaseAdapter {
         artistView.setText(currSong.getArtist());
 
         //set position as tag
+
         audioLay.setTag(position);
         audioLay.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                try {
-                    if(mediaPlayer.isPlaying()){
-                        mediaPlayer.stop();
-                        mediaPlayer.reset();
-                    }
-                    mediaPlayer.setDataSource(  audioFiles.get((Integer)v.getTag()).getPath() );
-                    mediaPlayer.prepare();
-                    mediaPlayer.start();
-                } catch (IOException e) {
-                    e.printStackTrace();
+            public void onClick(View view) {
+                audioService.setAudio( (Integer)view.getTag() );
+                audioService.playAudio();
+                MainActivity mainActivity = (MainActivity)context;
+                if( mainActivity.getPlaybackPaused()){
+                    mainActivity.setAudioController();
+                    mainActivity.setPlaybackPaused(false);
                 }
-                System.out.println( audioFiles.get((Integer)v.getTag()).getDuration() );
+                mainActivity.getAudioController().show(0);
             }
         });
         return audioLay;
