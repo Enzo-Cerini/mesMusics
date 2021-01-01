@@ -16,17 +16,15 @@ L’utilisateur peut créer ses playlists ou utiliser celle crée automatiquemen
 Il pourra également utiliser l’application en arrière-plan ou profiter de celle-ci avec le téléphone verrouillé.
 
 ## But de l'application
-  *	Ecouter de la musique (arrière-plan, premier-plan et téléphone vérrouillé)
+  *	Ecouter de la musique (arrière-plan, premier-plan et téléphone verrouillé)
   * Regroupez toute la musique contenue dans le téléphone.
   *	Afficher tous les détails des chansons (à partir d'une base de données en ligne).
-  *	Utilisez des détecteurs de mouvement pour contrôler la lecture.
+  *	Utiliser des détecteurs de mouvement pour contrôler la lecture.
   *	Créer des playlists.
 
 ## Activités
-Nous possèdons une classe activité nommée **MainActivity** qui hérite de la classe **AppCompatActivity** et qui implémente l'interface **MediaController.MediaPlayerControl**.
-Dans cette classe, 
-La classe **MainActivity** est l'élement principal de notre application Android.
-Les activités sont lancées et rassemblées edans cette classe.
+Notre classe **MainActivity** est l'élement principal de notre application Android. Celle-ci hérite de la classe **AppCompatActivity** et implémente l'interface **MediaController.MediaPlayerControl**.
+Les activités sont lancées et rassemblées dans cette classe.
 Nous allons donc détailler les principales méthodes de cette classe.
 
 ### La procédure **_onRequestPermissionsResult()_**
@@ -62,20 +60,24 @@ La classe **AudioService** hérite de la classe **Service** et implémentes les 
 * **MediaPlayer.OnErrorListener**
 * **MediaPlayer.OnCompletionListener**
 
-Cette classe nous permet de mettre en place les différentes fonctionnalités désirées par l'utilisateur. Elle permet donc de mettre en marche les différents boutons mis en place sur notre applications tels que :
- * Play
- * Pause
- * Suivant 
- * Précédent
- * Aléatoire
+Cette classe nous permet de mettre en place les différentes fonctionnalités désirées par l'utilisateur. Elle permet donc de mettre en marche les différents boutons mis en place sur notre applications tels que : **_Play - Pause - Suivant - Précédent - Aléatoire_**
 
 ## Permissions 
+Notre application nécéssite plusieurs permissions tels que :
+* **_INTERNET_**, afin d'avoir l'accès à Internet.
+* **_WAKE_LOCK_**, afin de verrouiller le réveil. 
+* **_WRITE_EXTERNAL_STORAGE_**, afin de pouvoir écrire sur le stockage externe.
+* **_READ_EXTERNAL_STORAGE_**, afin de pouvoir lire le stockage externe.
+* **_MANAGE_EXTERNAL_STORAGE_**, afin de pouvoir gérer le stockage externe.
 
 ## Background Services/Threads
 
 ## Sensor(s) used
 
 ## Autres
+Deux versions de ce fichier ont été réalisées :
+* version française (readme_fr.md)
+* version anglaise (readme_en.md)
 
 ## Auteurs
 **_Projet réalisé par :_**
