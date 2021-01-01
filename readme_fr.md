@@ -6,7 +6,7 @@ L’application MES Musics est une application de musique.
 Elle regroupe toutes les musiques présentes dans le téléphone de l’utilisateur. 
 De plus, les capteurs de mouvement du téléphone permettront de contrôler la lecture des musiques. 
 L’application affichera notamment les informations de chaque musique (artiste, titre, album…) grâce à une base de données en ligne.
-L’utilisateur peuvent gérer la lecture en mettant « lecture », « pause », « suivant » ou « précédent ». 
+L’utilisateur peuvent gérer la lecture en mettant « lecture », « pause », « suivant », « précédent » ou « aléatoire ». 
 De plus, il a également la possibilité de contrôler celle-ci grâce aux capteurs de mouvements :
   *	Deux tapes sur l’arrière du téléphone pour activer/désactiver la lecture.
   *	Un mouvement du téléphone vers l’avant pour passer à la musique suivante.
@@ -23,7 +23,7 @@ Il pourra également utiliser l’application en arrière-plan ou profiter de ce
   *	Créer des playlists.
 
 ## Activités
-Notre classe **MainActivity** est l'élement principal de notre application Android. Celle-ci hérite de la classe **AppCompatActivity** et implémente l'interface **MediaController.MediaPlayerControl**.
+Notre classe **MainActivity** est l'élément principal de notre application Android. Celle-ci hérite de la classe **_AppCompatActivity_** et implémente l'interface **_MediaController.MediaPlayerControl_**.
 Les activités sont lancées et rassemblées dans cette classe.
 Nous allons donc détailler les principales méthodes de cette classe.
 
@@ -39,28 +39,27 @@ Cette procédure nous permet de mettre en marche notre application.
 
 ## Intentions
 Notre applications se décompose en activités distinctes les unes des autres. 
-Nos méthodes dans notre **MainActivity** doivent pouvoir s'enchaîner, s'appeler, retourner à leur activité principale. 
-C'est pourquoi il faut mettre en place cette communication entres-elles en utilisant des **intentions**.
+Nos méthodes dans notre **MainActivity** doivent pouvoir s'enchaîner et s'appeler, c'est pourquoi il faut mettre en place entres-elles une communication en utilisant des **_intentions_**.
 Celles-ci permettent d'envoyer des messages d'une activité vers une autre avec des données pour les activer.
-Aisi, nous utilisons un **Intent** nommé *playIntent* qui nous permet de lancer notre application à travers la méthode **onStart()**. Cette Intent est également utilisé lors que l'application est détruite, soit la méthode **onDestroy()**.
+Aisi, nous utilisons un **_Intent_** nommé *"playIntent"* qui nous permet de lancer notre application à travers la méthode **_onStart()_**. Cette Intent est également utilisé lorsque l'application est détruite, soit dans la méthode **_onDestroy()_**.
 
 ## Classes
 
-### AudioFile
-La classe **AudioFile** nous permet de récupérer toute les informations que notre musique.
-Elle contient donc, l'id, le chemin, le titre, l'album, l'artiste et la durrée de la musique.
-Nous avons donc mis en place les *getter()* et les *setter()* afin de pouvoir récuperer chaque informations utiles tels que *getTitle()* ou encore *setTitle()*.
+### *AudioFile*
+La classe **AudioFile** nous permet de récupérer toutes les informations de notre musique.
+Elle contient donc, l'identificateur, le chemin, le titre, l'album, l'artiste et la durée de la musique.
+Nous avons donc mis en place des *getter()* et des *setter()* afin de pouvoir récuperer et modifier chaque informations utiles tels que *getTitle()* ou encore *setTitle()*.
 
-### AudioFileManager
-La classe **AudioFileManager** nous permet de stocker les différentes musiques en les conservant dans un tableau de type *ArrayList<AdioFile>*.
+### *AudioFileManager*
+La classe **AudioFileManager** nous permet de stocker les différentes musiques en les conservant dans un tableau de type *ArrayList*.
  
-### AudioService
+### *AudioService*
 La classe **AudioService** hérite de la classe **Service** et implémentes les différentes interfaces suivantes :
 * **MediaPlayer.OnPreparedListener**
 * **MediaPlayer.OnErrorListener**
 * **MediaPlayer.OnCompletionListener**
 
-Cette classe nous permet de mettre en place les différentes fonctionnalités désirées par l'utilisateur. Elle permet donc de mettre en marche les différents boutons mis en place sur notre applications tels que : **_Play - Pause - Suivant - Précédent - Aléatoire_**
+Cette classe nous permet de mettre en place les différentes fonctionnalités désirées par l'utilisateur. Elle permet donc de mettre en marche les différents boutons mis en place sur notre applications tels que : **_Lecture - Pause - Suivant - Précédent - Aléatoire_**
 
 ## Permissions 
 Notre application nécéssite plusieurs permissions tels que :
@@ -81,6 +80,6 @@ Deux versions de ce fichier ont été réalisées :
 
 ## Auteurs
 **_Projet réalisé par :_**
-* **_Salma BENCHELKHA_**
-* **_Mouncif LEKMITI_**
-* **_Enzo CERINI_**
+* **_Salma BENCHELKHA (salmabenchelkha@gmail.com)_**
+* **_Mouncif LEKMITI (m.lekmiti@hotmail.com)_**
+* **_Enzo CERINI (cerini.enzo@gmail.com)_**
