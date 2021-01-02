@@ -56,8 +56,9 @@ public class AudioFileManager {
                 String title = musicCursor.getString(1);
                 String album = musicCursor.getString(2);
                 String artist = musicCursor.getString(3);
-                String duration = musicCursor.getString(4);
+                long duration = musicCursor.getLong(4);
                 long id = musicCursor.getLong(5);
+
                 //add songs to list
                 audioFiles.add(new AudioFile(path, title, album, artist, duration,id));
             }

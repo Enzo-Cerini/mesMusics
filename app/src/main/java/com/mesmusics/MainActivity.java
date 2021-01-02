@@ -12,10 +12,12 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.os.IBinder;
 import android.provider.MediaStore;
 import android.view.MenuItem;
@@ -24,6 +26,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.MediaController;
+import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mesmusics.adaptater.AudioAdaptaterView;
@@ -43,6 +47,15 @@ public class MainActivity extends AppCompatActivity implements MediaController.M
     private AudioController audioController;
     private boolean paused = false;
     private boolean playbackpaused = true;
+    private SeekBar seekBar;
+    private TextView tvTime;
+
+    public void setFirst(boolean first) {
+        isFirst = first;
+    }
+
+    private boolean isFirst = true;
+    private TextView tvTitle;
 
     boolean isRunning = false;
 
@@ -69,7 +82,6 @@ public class MainActivity extends AppCompatActivity implements MediaController.M
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSION_REQUEST);
         } else {
@@ -112,54 +124,110 @@ public class MainActivity extends AppCompatActivity implements MediaController.M
         audioService.setAudioFiles(audioFileManager.getAudioFiles());
         audioAdaptaterView = new AudioAdaptaterView(this, audioFileManager.getAudioFiles(), audioService);
         listView.setAdapter(audioAdaptaterView);
+
+        seekBar = (SeekBar)findViewById(R.id.seekbar);
+        tvTime = (TextView)findViewById(R.id.tv_time);
+        tvTitle = (TextView)findViewById(R.id.tv_title);
+        handleSeekbar();
+
+        //listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        switch ( item.getItemId() ){
-            case R.id.shuffle:
-                audioService.setShuffle();
-                break;
-
-            case R.id.iv_play:
-                playSound();
-                break;
-        }
-        return super.onOptionsItemSelected(item);
+    public void manageToolbar() {
+        Handler mHandler = new Handler();
+        this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                seekBar.setMax((int)audioFileManager.getAudioFiles().get(audioService.getAudioPos()).getDuration() / 1000);
+                int currentPos = audioService.getPos() / 1000;
+                seekBar.setProgress(currentPos);
+                tvTime.setText(Utility.convertDuration((long)audioService.getPos()));
+                mHandler.postDelayed(this,1000);
+                tvTitle.setText(audioFileManager.getAudioFiles().get(audioService.getAudioPos()).getTitle());
+            }
+        });
     }
 
     //play next
     private void playNext(){
         audioService.playNext();
         if(playbackpaused){
+            ((ImageView)findViewById(R.id.iv_play)).setImageResource(R.drawable.ic_pause_circle_outline_white);
             setAudioController();
             playbackpaused = false;
         }
+        View v = ( (ListView)findViewById(R.id.lv) ).getChildAt(audioService.getAudioPos());
+        if(v != null)   //it means that the children is visible by the user
+            audioAdaptaterView.changeSelectedRow(v);
         audioController.show(0);
+    }
+
+    public void previousClick(View view){
+
+        playPrev();
+    }
+
+    public void nextClick(View view){
+        playNext();
+
     }
 
     //play previous
     private void playPrev(){
         audioService.playPrev();
         if(playbackpaused){
+            ((ImageView)findViewById(R.id.iv_play)).setImageResource(R.drawable.ic_pause_circle_outline_white);
             setAudioController();
             playbackpaused = false;
         }
+        View v = ( (ListView)findViewById(R.id.lv) ).getChildAt(audioService.getAudioPos());
+        if(v != null)   //it means that the children is visible by the user
+            audioAdaptaterView.changeSelectedRow(v);
         audioController.show(0);
     }
 
+    private void handleSeekbar(){
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if(audioService != null && fromUser){
+                    audioService.seek(progress * 1000);
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+    }
 
     public void audioPicked(View view){
-        //audioService.setAudio( (Integer)view.getTag() );
+
         if(playbackpaused) {
-            // ((ImageView)findViewById(R.id.iv_play)).setImageRessource();
-            audioService.playAudio();
+            View v = ( (ListView)findViewById(R.id.lv) ).getChildAt(audioService.getAudioPos());
+            if(v != null)   //it means that the children is visible by the user
+                audioAdaptaterView.changeSelectedRow(v);
+            if(isFirst) {
+                audioService.playAudio();
+                isFirst = false;
+            }
+            else
+                audioService.startAudio();
             playbackpaused = false;
+            ((ImageView)findViewById(R.id.iv_play)).setImageResource(R.drawable.ic_pause_circle_outline_white);
         }
         else{
             audioService.pausePlayer();
             playbackpaused = true;
+            ((ImageView)findViewById(R.id.iv_play)).setImageResource(R.drawable.ic_play_circle_outline_white);
         }
+        manageToolbar();
     }
 
     public void setAudioController(){

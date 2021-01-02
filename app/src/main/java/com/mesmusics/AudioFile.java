@@ -7,10 +7,10 @@ public class AudioFile {
     String title;
     String album;
     String artist;
-    String duration;
+    long duration;
 
 
-    public AudioFile(String path, String title, String album, String artist, String duration,long id) {
+    public AudioFile(String path, String title, String album, String artist, long duration,long id) {
         this.path = path;
         this.title = title;
         this.album = album;
@@ -24,7 +24,7 @@ public class AudioFile {
         this.title = null;
         this.album = null;
         this.artist = null;
-        this.duration = null;
+        this.duration = 0;
         this.id = 0;
     }
 
@@ -32,7 +32,7 @@ public class AudioFile {
         return id;
     }
 
-    public String getDuration() {
+    public long getDuration() {
         return duration;
     }
 

@@ -2,10 +2,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:clickable="true"
     android:background="?android:attr/selectableItemBackground"
-    android:padding="5dp"
-    android:focusable="true">
+    android:clickable="true"
+
+    android:focusable="true"
+    android:padding="5dp">
 
     <ImageView
         android:id="@+id/iv_artwork"
@@ -47,12 +48,12 @@
 
     <ImageView
         android:id="@+id/iv_play_active"
-        android:src="@drawable/ic_play_circle_outline_black"
-        android:visibility="invisible"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@id/tv_duration"
         android:layout_width="30dp"
-        android:layout_height="30dp" />
+        android:layout_height="30dp"
+        android:layout_below="@id/tv_duration"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_play_circle_outline_black"
+        android:visibility="invisible" />
 
 </RelativeLayout>
