@@ -14,6 +14,7 @@ import android.os.IBinder;
 import android.os.PowerManager;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 
@@ -38,6 +39,10 @@ public class AudioService extends Service implements MediaPlayer.OnPreparedListe
         ramdom = new Random();
         mediaPlayer = new MediaPlayer();
         initAudioPlayer();
+    }
+
+    public int getAudioPos(){
+        return this.audioPos;
     }
 
     public void initAudioPlayer(){
@@ -111,7 +116,7 @@ public class AudioService extends Service implements MediaPlayer.OnPreparedListe
                 .setContentTitle("Playing")
                 .setContentText(audioTitle);
         Notification notification = builder.build();
-       // startForeground(NOTIFY_ID, notification);
+        // startForeground(NOTIFY_ID, notification);
     }
 
     public void setAudio(int audioPos){
@@ -180,3 +185,8 @@ public class AudioService extends Service implements MediaPlayer.OnPreparedListe
     }
 
 }
+
+
+
+
+
