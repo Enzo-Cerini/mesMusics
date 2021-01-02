@@ -13,6 +13,10 @@ import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.drawable.BitmapDrawable;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -49,6 +53,9 @@ public class MainActivity extends AppCompatActivity implements MediaController.M
     private boolean playbackpaused = true;
     private SeekBar seekBar;
     private TextView tvTime;
+    private SensorManager sensorManager = null;
+    private long previousTime;
+    private float previousPosition = 0;
 
     public void setFirst(boolean first) {
         isFirst = first;
@@ -86,6 +93,8 @@ public class MainActivity extends AppCompatActivity implements MediaController.M
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSION_REQUEST);
         } else {
             setAudioController();
+            sensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
+            previousTime = -1;
         }
     }
 
@@ -291,6 +300,35 @@ public class MainActivity extends AppCompatActivity implements MediaController.M
     protected void onResume() {
         super.onResume();
         paused = false;
+        sensorManager.registerListener(new SensorEventListener() {
+            @Override
+            public void onSensorChanged(SensorEvent event) {
+                long currentTime = System.currentTimeMillis();
+
+                if(previousTime == -1)
+                    previousTime = 0;
+                else {
+                    if (currentTime - previousTime > 400) {
+                        previousTime = currentTime;
+                        float x = event.values[0];
+                        float z = event.values[2];
+                        System.out.println("x = " + x);
+                        System.out.println("z = " + z);
+                        if (x < 0 )
+                            audioPicked(null);
+                        if (z > 0 )
+                            nextClick(null);
+                        if (z < 0 )
+                            previousClick(null);
+                    }
+                }
+            }
+
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+            }
+        },sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE),SensorManager.SENSOR_DELAY_UI );
     }
 
     @Override
