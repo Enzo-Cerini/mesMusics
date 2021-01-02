@@ -162,6 +162,10 @@ public class AudioService extends Service implements MediaPlayer.OnPreparedListe
         mediaPlayer.start();
     }
 
+    public void stop(){
+        mediaPlayer.stop();
+    }
+
     public void playPrev(){
         audioPos--;
         if(audioPos < 0)

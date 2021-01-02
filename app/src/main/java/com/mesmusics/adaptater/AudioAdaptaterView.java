@@ -114,6 +114,7 @@ public class AudioAdaptaterView extends BaseAdapter {
                     mainActivity.setAudioController();
                     mainActivity.setPlaybackPaused(false);
                 }
+
                 changeSelectedRow(view);
                 mainActivity.manageToolbar();
                 mainActivity.getAudioController().show(0);
