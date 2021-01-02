@@ -11,41 +11,45 @@
 
     <ImageView
         android:id="@+id/iv_artwork"
-        android:src="@drawable/music_placeholder"
-        android:layout_marginRight="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_centerVertical="true"
         android:layout_width="50dp"
-        android:layout_height="50dp" />
+        android:layout_height="50dp"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/music_placeholder"
+        app:srcCompat="@drawable/son" />
 
     <TextView
         android:id="@+id/audio_title"
-        android:text="Titre de la chanson"
-        android:textStyle="bold"
-        android:textSize="16sp"
-        android:paddingRight="50dp"
-        android:paddingEnd="50dp"
-        android:layout_toRightOf="@id/iv_artwork"
-        android:layout_toEndOf="@id/iv_artwork"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/iv_artwork"
+        android:layout_toRightOf="@id/iv_artwork"
+        android:paddingEnd="50dp"
+        android:paddingRight="50dp"
+        android:text="Titre de la chanson"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/audio_artist"
-        android:text="Artiste"
-        android:layout_toRightOf="@id/iv_artwork"
-        android:layout_toEndOf="@id/iv_artwork"
-        android:layout_below="@id/audio_title"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_below="@id/audio_title"
+        android:layout_toEndOf="@id/iv_artwork"
+        android:layout_toRightOf="@id/iv_artwork"
+        android:text="Artiste"
+        android:textColor="#FFFFFF" />
 
     <TextView
         android:id="@+id/tv_duration"
-        android:text="3:05"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:text="3:05"
+        android:textColor="#FFFFFF" />
 
     <ImageView
         android:id="@+id/iv_play_active"
@@ -66,6 +70,6 @@
         android:layout_marginTop="17dp"
         android:layout_marginEnd="64dp"
         android:onClick="addToPlaylist"
-        app:srcCompat="@android:drawable/arrow_down_float" />
+        app:srcCompat="@android:drawable/btn_star" />
 
 </RelativeLayout>

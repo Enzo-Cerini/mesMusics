@@ -103,7 +103,7 @@
                     android:id="@+id/seekbar"
                     android:layout_width="336dp"
                     android:layout_height="45dp"
-                    android:progressTint="#A52424" />
+                    android:progressTint="#009688" />
 
                 <TextView
                     android:id="@+id/tv_time"
@@ -116,6 +116,19 @@
         </LinearLayout>
 
     </androidx.appcompat.widget.Toolbar>
+
+    <ListView
+        android:id="@+id/lv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="210dp"
+        android:forceDarkAllowed="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </ListView>
 
     <Button
         android:id="@+id/button2"
@@ -135,7 +148,7 @@
         android:id="@+id/button3"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="230dp"
+        android:layout_marginStart="30dp"
         android:layout_marginBottom="16dp"
         android:fontFamily="@font/paprika"
         android:onClick="switchToPlaylist"
@@ -143,16 +156,6 @@
         android:textColorLink="#FFFFFF"
         android:textSize="12sp"
         app:layout_constraintBottom_toTopOf="@+id/toolbar"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <ListView
-        android:id="@+id/lv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="130dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
