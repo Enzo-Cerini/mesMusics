@@ -16,6 +16,7 @@
         android:layout_marginBottom="110dp"
         app:layout_constraintBottom_toTopOf="@+id/toolbar"
         app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/play_active_key"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -55,7 +56,7 @@
                     android:visibility="gone" />
 
                 <TextView
-                    android:id="@+id/tb_title"
+                    android:id="@+id/tv_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="15sp" />
@@ -81,6 +82,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:contentDescription="@+String/previous music"
+                    android:onClick="previousClick"
                     android:src="@drawable/selector_previous" />
 
                 <ImageView
@@ -96,8 +98,8 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:contentDescription="@+String/next music"
+                    android:onClick="nextClick"
                     android:src="@drawable/selector_next" />
-
 
             </LinearLayout>
 
@@ -117,7 +119,7 @@
             <SeekBar
                 android:id="@+id/seekbar"
                 android:layout_width="match_parent"
-                android:layout_height="31dp" />
+                android:layout_height="wrap_content" />
 
 
         </LinearLayout>
