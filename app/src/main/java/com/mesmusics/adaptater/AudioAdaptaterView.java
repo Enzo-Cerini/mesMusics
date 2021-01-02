@@ -101,13 +101,6 @@ public class AudioAdaptaterView extends BaseAdapter {
             System.out.println("ifrjrefjefnrjfnzjfnjnjnzru'ztuzhguhuiz");
             changeSelectedRow(audioLay);
         }
-     //   holder.view = audioLay;
-
-        //  if (this.audioFiles.contains(ticket.getTicketID())
-        //        && this.isOnUnload()) {
-       // holder.view.setSelected(true);
-        //    }
-
         audioLay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -123,13 +116,8 @@ public class AudioAdaptaterView extends BaseAdapter {
                 }
                 changeSelectedRow(view);
                 mainActivity.manageToolbar();
-               // mainActivity.setFirst(false);
                 mainActivity.getAudioController().show(0);
                 ListView lv = mainActivity.findViewById(R.id.lv);
-                //lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-
-                //  lv.setItemSelected((int)view.getTag());
-                System.out.println(lv.getCheckedItemCount());
             }
         });
         return audioLay;

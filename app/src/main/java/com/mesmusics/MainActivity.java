@@ -123,6 +123,16 @@ public class MainActivity extends AppCompatActivity implements MediaController.M
         }
     };
 
+    public void addToPlaylist(View view){
+        Utility.addToPlaylist(this,view,audioFileManager.getAudioFiles());
+    }
+
+    public void goToPlaylist(View view){
+        Intent i = new Intent(this, PlaylistActivity.class);
+        startActivity(i);
+       // Utility.readPlayList(this);
+    }
+
     public void initAudios(){
         ListView listView = findViewById(R.id.lv);
         audioFileManager = new AudioFileManager();
@@ -135,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements MediaController.M
         tvTime = (TextView)findViewById(R.id.tv_time);
         tvTitle = (TextView)findViewById(R.id.tv_title);
         handleSeekbar();
-
+        System.out.println(audioFileManager.getAudioFiles().get(0).getId());
         //listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
     }
 

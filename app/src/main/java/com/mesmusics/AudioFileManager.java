@@ -27,13 +27,6 @@ public class AudioFileManager {
 
         ContentResolver musicResolver = context.getContentResolver();
         Uri musicUri ;
-
-      /*  if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            musicUri = MediaStore.Audio.Media.getContentUri(MediaStore.VOLUME_EXTERNAL);
-        } else {
-            musicUri = MediaStore.Audio.Media.INTERNAL_CONTENT_URI;
-        }*/
-
         musicUri = MediaStore.Audio.Media.INTERNAL_CONTENT_URI;
         String selection = MediaStore.Audio.Media.IS_MUSIC + "!=0";
 
@@ -45,7 +38,6 @@ public class AudioFileManager {
                 MediaStore.Audio.Media.DURATION,
                 MediaStore.Audio.Media._ID
         };
-
         Cursor musicCursor = musicResolver.query(musicUri, projection, null, null, null);
 
         if(musicCursor!=null && musicCursor.moveToFirst()){
@@ -62,12 +54,6 @@ public class AudioFileManager {
                 //add songs to list
                 audioFiles.add(new AudioFile(path, title, album, artist, duration,id));
             }
-
-         /*   System.out.println("album : "+ audioFiles.get(0).getAlbum());
-            System.out.println("duree : "+audioFiles.get(0).getDuration());
-            System.out.println("artiste : "+audioFiles.get(0).getArtist());
-            System.out.println("titre : "+audioFiles.get(0).getTitle());
-            System.out.println("path : "+audioFiles.get(0).getPath());*/
         }
         else
             Toast.makeText(context, "Aucun fichier audio trouvé",Toast.LENGTH_LONG).show();
