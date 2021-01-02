@@ -57,10 +57,6 @@ public class MainActivity extends AppCompatActivity implements MediaController.M
     private long previousTime;
     private float previousPosition = 0;
 
-    public void setFirst(boolean first) {
-        isFirst = first;
-    }
-
     private boolean isFirst = true;
     private TextView tvTitle;
 
