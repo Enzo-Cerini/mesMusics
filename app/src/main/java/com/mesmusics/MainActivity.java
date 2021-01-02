@@ -109,6 +109,12 @@ public class MainActivity extends AppCompatActivity implements MediaController.M
             initAudios();
             audioService.setAudioFiles(audioFileManager.getAudioFiles());
             audioBound = true;
+            audioService.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    nextClick(null);
+                }
+            });
         }
 
         @Override
@@ -156,14 +162,12 @@ public class MainActivity extends AppCompatActivity implements MediaController.M
             setAudioController();
             playbackpaused = false;
         }
-        View v = ( (ListView)findViewById(R.id.lv) ).getChildAt(audioService.getAudioPos());
-        if(v != null)   //it means that the children is visible by the user
-            audioAdaptaterView.changeSelectedRow(v);
+        audioAdaptaterView.setSelectedPosition(audioService.getAudioPos());
+        audioAdaptaterView.notifyDataSetChanged();
         audioController.show(0);
     }
 
     public void previousClick(View view){
-
         playPrev();
     }
 
@@ -180,9 +184,8 @@ public class MainActivity extends AppCompatActivity implements MediaController.M
             setAudioController();
             playbackpaused = false;
         }
-        View v = ( (ListView)findViewById(R.id.lv) ).getChildAt(audioService.getAudioPos());
-        if(v != null)   //it means that the children is visible by the user
-            audioAdaptaterView.changeSelectedRow(v);
+        audioAdaptaterView.setSelectedPosition(audioService.getAudioPos());
+        audioAdaptaterView.notifyDataSetChanged();
         audioController.show(0);
     }
 

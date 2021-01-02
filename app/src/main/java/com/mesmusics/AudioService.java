@@ -57,6 +57,11 @@ public class AudioService extends Service implements MediaPlayer.OnPreparedListe
         this.audioFiles = audioFiles;
     }
 
+    @Override
+    public void onCompletion(MediaPlayer mp) {
+
+    }
+
     public class AudioBinder extends Binder {
         AudioService getService() {
             return AudioService.this;
@@ -123,12 +128,8 @@ public class AudioService extends Service implements MediaPlayer.OnPreparedListe
         this.audioPos = audioPos;
     }
 
-    @Override
-    public void onCompletion(MediaPlayer mp) {
-        if(mediaPlayer.getCurrentPosition() >= 0){
-            mediaPlayer.reset();
-            playNext();
-        }
+    public void setOnCompletionListener(MediaPlayer.OnCompletionListener onCompletionListener){
+        mediaPlayer.setOnCompletionListener(onCompletionListener);
     }
 
     @Override

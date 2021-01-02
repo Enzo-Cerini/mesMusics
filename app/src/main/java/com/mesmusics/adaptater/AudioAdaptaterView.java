@@ -1,3 +1,4 @@
+
 package com.mesmusics.adaptater;
 
 import android.annotation.SuppressLint;
@@ -35,6 +36,7 @@ public class AudioAdaptaterView extends BaseAdapter {
     private final AudioService audioService;
     private final Context context;
     private View previousView;
+    private int selectedPosition;
     private ImageView imageView;
 
     public AudioAdaptaterView(Context c, ArrayList<AudioFile> audioFiles, AudioService audioService){
@@ -43,11 +45,15 @@ public class AudioAdaptaterView extends BaseAdapter {
         this.audioService = audioService;
         this.context = c;
         this.previousView = null;
+        this.selectedPosition = 0;
     }
 
     private class ViewHolder {
         View view;
+    }
 
+    public void setSelectedPosition(int selectedPosition) {
+        this.selectedPosition = selectedPosition;
     }
 
     @Override
@@ -65,17 +71,16 @@ public class AudioAdaptaterView extends BaseAdapter {
         return 0;
     }
 
-
     @SuppressLint("ResourceAsColor")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        ViewHolder holder = null;
-        holder = new ViewHolder();
+        //ViewHolder holder = null;
+       // holder = new ViewHolder();
         //map to song layout
         RelativeLayout audioLay = (RelativeLayout)audioInf.inflate
                 (R.layout.music_poster, parent, false);
-        audioLay.setBackgroundResource(R.drawable.bg_key);
+       // audioLay.setBackgroundResource(R.drawable.bg_key);
         //get title and artist views
         ImageView imageView = (ImageView)audioLay.findViewById(R.id.iv_play_active);
         TextView audioView = (TextView)audioLay.findViewById(R.id.audio_title);
@@ -92,18 +97,23 @@ public class AudioAdaptaterView extends BaseAdapter {
 
         //set position as tag
         audioLay.setTag(position);
-
-        holder.view = audioLay;
+        if (selectedPosition == position){
+            System.out.println("ifrjrefjefnrjfnzjfnjnjnzru'ztuzhguhuiz");
+            changeSelectedRow(audioLay);
+        }
+     //   holder.view = audioLay;
 
         //  if (this.audioFiles.contains(ticket.getTicketID())
         //        && this.isOnUnload()) {
-        holder.view.setSelected(true);
+       // holder.view.setSelected(true);
         //    }
 
         audioLay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                audioService.setAudio( (Integer)view.getTag() );
+                int pos = (Integer)view.getTag();
+                audioService.setAudio( pos );
+                selectedPosition = pos;
                 audioService.playAudio();
                 MainActivity mainActivity = (MainActivity)context;
                 if( mainActivity.getPlaybackPaused()){
@@ -113,7 +123,7 @@ public class AudioAdaptaterView extends BaseAdapter {
                 }
                 changeSelectedRow(view);
                 mainActivity.manageToolbar();
-                mainActivity.setFirst(false);
+               // mainActivity.setFirst(false);
                 mainActivity.getAudioController().show(0);
                 ListView lv = mainActivity.findViewById(R.id.lv);
                 //lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
@@ -127,13 +137,9 @@ public class AudioAdaptaterView extends BaseAdapter {
 
     @SuppressLint("ResourceAsColor")
     public void changeSelectedRow(View view){
-        if(previousView != null) {
-            previousView.setSelected(false);
-            ((ImageView)previousView.findViewById(R.id.iv_play_active)).setVisibility(View.INVISIBLE);
-        }
-        view.setSelected(true);
+        view.setBackgroundColor(R.color.black);
         ((ImageView)view.findViewById(R.id.iv_play_active)).setVisibility(View.VISIBLE);
-        previousView = view;
+        notifyDataSetChanged();
     }
 
 }
