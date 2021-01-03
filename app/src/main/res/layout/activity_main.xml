@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:scaleType="fitXY"
-        app:srcCompat="@drawable/vert" />
+        app:srcCompat="@drawable/vert_clair" />
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -136,7 +136,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="30dp"
         android:layout_marginBottom="16dp"
-        android:fontFamily="@font/cinzel_decorative"
+        android:fontFamily="serif"
         android:onClick="switchToPlaylist"
         android:text="Ma playlist"
         android:textColorHighlight="#FFFFFF"
@@ -151,7 +151,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginBottom="16dp"
-        android:fontFamily="@font/cinzel_decorative"
+        android:fontFamily="serif"
         android:onClick="swithToAudioInfos"
         android:text="Informations"
         android:textColorHighlight="#FFFFFF"
