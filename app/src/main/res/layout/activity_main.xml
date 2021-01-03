@@ -21,7 +21,7 @@
         android:layout_width="437dp"
         android:layout_height="129dp"
         android:layout_alignParentBottom="true"
-        android:background="#1C2347"
+        android:background="#000000"
         android:minHeight="100dp"
         android:theme="@style/Base.ThemeOverlay.AppCompat.Dark.ActionBar"
         app:layout_constraintBottom_toBottomOf="parent"
