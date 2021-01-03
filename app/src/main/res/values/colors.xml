@@ -4,8 +4,8 @@
     <color name="purple_200">#C0F4E8</color>
     <color name="purple_500">#000000</color>
     <color name="purple_700">#000000</color>
-    <color name="teal_200">#14A3DC</color>
-    <color name="teal_700">#FF018786</color>
+    <color name="teal_200">#AEF9D0</color>
+    <color name="teal_700">#AEF9D0</color>
     <color name="black">#C83EFA</color>
     <color name="white">#FFFFFFFF</color>
 </resources>
