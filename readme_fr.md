@@ -8,11 +8,14 @@ De plus, les capteurs de mouvement du téléphone permettront de contrôler la l
 L’application affichera notamment les informations de chaque musique (artiste, titre, album…) grâce à une base de données en ligne.
 L’utilisateur peuvent gérer la lecture en mettant « lecture », « pause », « suivant », « précédent » ou « aléatoire ». 
 De plus, il a également la possibilité de contrôler celle-ci grâce aux capteurs de mouvements :
-  *	Deux tapes sur l’arrière du téléphone pour activer/désactiver la lecture.
-  *	Un mouvement du téléphone vers l’avant pour passer à la musique suivante.
-  *	Un mouvement du téléphone vers l’arrière pour revenir à la musique précédente.
+  *	un mouvement du téléphone vers la droite pour passer à la musique suivante.
+  *	un mouvement du téléphone vers la gauche pour revenir à la musique précédente.
+  *	un mouvement du téléphone vers la haut pour lire ou mettre en pause la musique.
 
-L’utilisateur peut créer ses playlists ou utiliser celle crée automatiquement par l’application. 
+L’utilisateur peut soit :
+* lire les musiques déja présentes sur son téléphone.
+* ajouter des musiques à sa playlist à l'aide d'un bouton "Ajouter". 
+
 Il pourra également utiliser l’application en arrière-plan ou profiter de celle-ci avec le téléphone verrouillé.
 
 ## But de l'application
@@ -20,22 +23,23 @@ Il pourra également utiliser l’application en arrière-plan ou profiter de ce
   * Regroupez toute la musique contenue dans le téléphone.
   *	Afficher tous les détails des chansons (à partir d'une base de données en ligne).
   *	Utiliser des détecteurs de mouvement pour contrôler la lecture.
-  *	Créer des playlists.
+  *	Créer sa playlist.
 
 ## Activités
+
+### MainActivity
 Notre classe **MainActivity** est l'élément principal de notre application Android. Celle-ci hérite de la classe **_AppCompatActivity_** et implémente l'interface **_MediaController.MediaPlayerControl_**.
 Les activités sont lancées et rassemblées dans cette classe.
 Nous allons donc détailler les principales méthodes de cette classe.
-
-### La procédure **_onRequestPermissionsResult()_**
+La procédure **_onRequestPermissionsResult()_**
 Cette procédure nous permet de demander la permission de lire le stockage externe.
 Ainsi, si celle-ci n'est pas déja accepté, une demande apparait au lancemement de l'application **MES Musics**
 
-### La procédure **_onCreate()_**
-Cette procédure nous permet de créer l'instance de notre application.
+### AddPlayslitActivity
+Cette activité permet l'ajout de musique dans la playlist de l'utilisateur à l'aide d'un bouton mis en place dans le **_MainActivity_**.
 
-### La procédure **_onStart()_**
-Cette procédure nous permet de mettre en marche notre application.
+### SongDetailActivity
+Cette activité permet d'afficher les détails de chaque musique tels que le titre, l'artiste, l'album et la durée de la musique.
 
 ## Intentions
 Notre applications se décompose en activités distinctes les unes des autres. 
@@ -69,9 +73,17 @@ Notre application nécéssite plusieurs permissions tels que :
 * **_READ_EXTERNAL_STORAGE_**, afin de pouvoir lire le stockage externe.
 * **_MANAGE_EXTERNAL_STORAGE_**, afin de pouvoir gérer le stockage externe.
 
-## Background Services/Threads
+## Services d'arrière-plan 
+L'utilisateur a également  la possibilité d'écouter de la musique en arrière plan. Pour cela, nous avons crée dans la classe AudioService, la méthode onPrepare() à laquelle on a rajouté un Intent du MainActivity afin de créer ensuite un pendingIntent qui va permettre de gérer la musique en arrière-plan. Nous avons rajouter à cela, une notifcation afin d'afficher les bouton "Lecture" et "Pause" sur la barre de notification de l'utilisateur.
 
-## Sensor(s) used
+## Capteurs de mouvement utilisés
+L'utilisateur a également la possibilité de contrôler la lecture de ses musiques en utilisant les capteurs de mouvement du téléphone. Pour cela, nous avons enregistré un Listener dans la méthode onResume() du MainActivity. Puis, nous avons appliqué la méthode registerListener sur l'attribut sensorManager. De plus, nous avons notamment passé en paramètre de cette méthode un new SensorEventListener dans lequel nous avons redéfinis la méthode onSensorChanged(). 
+Nous y avons attribué en fonction de l'inclinaison du téléphone 
+* sur l'axe X, les évènements **Suivant** et **Précédent**.
+* sur l'axe Z, les évènements **Lecture** et **Pause**.
+
+##  Threads
+Nous avons également utilisé un Thread 
 
 ## Autres
 Deux versions de ce fichier ont été réalisées :
