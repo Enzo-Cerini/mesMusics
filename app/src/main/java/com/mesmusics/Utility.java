@@ -92,4 +92,15 @@ public class Utility {
         System.out.println("addeeeeeeeeeeed");
     }
 
+    public static void addToPlaylistSimple(Context context, View view,String title, String path){
+
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(title, path);
+        editor.apply();
+        System.out.println("dsxfcgvhbjnklmkjfcvbn,   "+title+" : "+path);
+        System.out.println("azertyu");
+    }
+
 }

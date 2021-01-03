@@ -23,6 +23,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.MediaController;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -122,16 +123,29 @@ public class MainActivity extends AppCompatActivity implements MediaController.M
         }
     };
 
+    public void swithToConfirmPlaylist(View view){
+        Intent myIntent = new Intent(getBaseContext(), addPlaylistActivity.class);
+        int position = (Integer)((RelativeLayout)view.getParent()).getTag();
+        //View v = ( (ListView)findViewById(R.id.lv) ).getChildAt(audioService.getAudioPos());
+        if(position < currentAudioFiles.size()) {   //it means that the children is visible by the user
+            myIntent.putExtra("path", audioFileManager.getAudioFiles().get(position).getPath());
+            myIntent.putExtra("title", audioFileManager.getAudioFiles().get(position).getTitle());
+            startActivityForResult(myIntent, 0);
+        }
+        else{
+            Toast.makeText(this, "Impossible d'ajouter le titre a la playlist", Toast.LENGTH_SHORT).show();
+        }
+
+        //Utility.addToPlaylist(this,view,audioFileManager.getAudioFiles());
+    }
+    public void swithToAudioInfos(View view){
+        Intent myIntent = new Intent(getBaseContext(), AudioInfosActivity.class);
+        startActivityForResult(myIntent, 0);
+    }
     public void addToPlaylist(View view){
         Utility.addToPlaylist(this,view,audioFileManager.getAudioFiles());
     }
-    public void swithToConfirmPlaylist(View view){
-        Intent myIntent = new Intent(getBaseContext(), PlaylistActivity.class);
-        //myIntent.putExtra("path",audioFileManager.getAudioFiles().get((Integer)view.getTag()).getPath());
-        //myIntent.putExtra("title",audioFileManager.getAudioFiles().get((Integer)view.getTag()).getTitle());
-        startActivityForResult(myIntent, 0);
-        //Utility.addToPlaylist(this,view,audioFileManager.getAudioFiles());
-    }
+
 
     public void switchToAccueil(View view){
         ListView listView = findViewById(R.id.lv);
@@ -154,7 +168,8 @@ public class MainActivity extends AppCompatActivity implements MediaController.M
 
     public void reset(){
         audioService.setAudio(0);
-        audioService.stop();
+        if(audioService.isPlaying())
+            audioService.stop();
         ((ImageView)findViewById(R.id.iv_play)).setImageResource(R.drawable.ic_play_circle_outline_white);
         playbackpaused = true;
     }
@@ -354,8 +369,8 @@ public class MainActivity extends AppCompatActivity implements MediaController.M
                         previousTime = currentTime;
                         float x = event.values[0];
                         float z = event.values[2];
-                        System.out.println("x = " + x);
-                        System.out.println("z = " + z);
+                      //  System.out.println("x = " + x);
+                      //  System.out.println("z = " + z);
                         if (x < 0 )
                             audioPicked(null);
                         if (z > 0 )

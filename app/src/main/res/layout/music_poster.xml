@@ -57,12 +57,12 @@
         android:id="@+id/iv_play_active"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_below="@id/tv_duration"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="6dp"
+        android:layout_below="@id/tv_duration"
         android:layout_marginEnd="86dp"
         android:layout_marginRight="86dp"
+        android:layout_marginTop="6dp"
         android:src="@drawable/ic_play_circle_outline_black"
         android:visibility="invisible" />
 
@@ -70,11 +70,11 @@
         android:id="@+id/imageButton2"
         android:layout_width="45dp"
         android:layout_height="45dp"
-        android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="10dp"
+        android:layout_alignParentTop="true"
         android:layout_marginEnd="13dp"
-        android:onClick="addToPlaylist"
+        android:layout_marginTop="10dp"
+        android:onClick="swithToConfirmPlaylist"
         android:scaleType="centerCrop"
         app:srcCompat="@drawable/plus" />
 
