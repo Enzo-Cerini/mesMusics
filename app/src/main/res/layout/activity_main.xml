@@ -14,14 +14,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:scaleType="fitXY"
-        app:srcCompat="@drawable/fond" />
+        app:srcCompat="@drawable/bleu" />
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="437dp"
         android:layout_height="129dp"
         android:layout_alignParentBottom="true"
-        android:background="#191818"
+        android:background="#1C2347"
         android:minHeight="100dp"
         android:theme="@style/Base.ThemeOverlay.AppCompat.Dark.ActionBar"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -102,8 +102,8 @@
                 <SeekBar
                     android:id="@+id/seekbar"
                     android:layout_width="336dp"
-                    android:layout_height="45dp"
-                    android:progressTint="#009688" />
+                    android:layout_height="match_parent"
+                    android:progressTint="#3393D3" />
 
                 <TextView
                     android:id="@+id/tv_time"
@@ -139,6 +139,7 @@
         android:fontFamily="@font/paprika"
         android:onClick="switchToPlaylist"
         android:text="Ma playlist"
+        android:textColorHighlight="#FFFFFF"
         android:textColorLink="#FFFFFF"
         android:textSize="12sp"
         app:layout_constraintBottom_toTopOf="@+id/toolbar"
@@ -153,6 +154,7 @@
         android:fontFamily="@font/paprika"
         android:onClick="switchToPlaylist"
         android:text="Informations"
+        android:textColorHighlight="#FFFFFF"
         android:textColorLink="#FFFFFF"
         android:textSize="12sp"
         app:layout_constraintBottom_toTopOf="@+id/toolbar"
