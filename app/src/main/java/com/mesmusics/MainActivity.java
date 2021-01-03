@@ -128,8 +128,8 @@ public class MainActivity extends AppCompatActivity implements MediaController.M
         int position = (Integer)((RelativeLayout)view.getParent()).getTag();
         //View v = ( (ListView)findViewById(R.id.lv) ).getChildAt(audioService.getAudioPos());
         if(position < currentAudioFiles.size()) {   //it means that the children is visible by the user
-            myIntent.putExtra("path", audioFileManager.getAudioFiles().get(position).getPath());
-            myIntent.putExtra("title", audioFileManager.getAudioFiles().get(position).getTitle());
+            myIntent.putExtra("path", currentAudioFiles.get(position).getPath());
+            myIntent.putExtra("title", currentAudioFiles.get(position).getTitle());
             startActivityForResult(myIntent, 0);
         }
         else{
@@ -138,9 +138,19 @@ public class MainActivity extends AppCompatActivity implements MediaController.M
 
         //Utility.addToPlaylist(this,view,audioFileManager.getAudioFiles());
     }
-    public void swithToAudioInfos(View view){
+    public void switchToAudioInfos(View view){
         Intent myIntent = new Intent(getBaseContext(), AudioInfosActivity.class);
-        startActivityForResult(myIntent, 0);
+        int position = audioService.getAudioPos();
+        if(position < currentAudioFiles.size()) {
+            myIntent.putExtra("title",currentAudioFiles.get(position).getTitle() );
+            myIntent.putExtra("artist",currentAudioFiles.get(position).getArtist() );
+            myIntent.putExtra("album",currentAudioFiles.get(position).getAlbum() );
+            myIntent.putExtra("duration",currentAudioFiles.get(position).getDuration() );
+            startActivityForResult(myIntent, 0);
+        }
+        else{
+        Toast.makeText(this, "Impossible d'ajouter le titre a la playlist", Toast.LENGTH_SHORT).show();
+        }
     }
     public void addToPlaylist(View view){
         Utility.addToPlaylist(this,view,audioFileManager.getAudioFiles());

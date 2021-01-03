@@ -75,7 +75,7 @@ public class AudioService extends Service implements MediaPlayer.OnPreparedListe
     @Override
     public void onPrepared(MediaPlayer mp){
         mp.start();
-        NotificationChannel channel = new NotificationChannel("001","cc", NotificationManager.IMPORTANCE_HIGH);
+        NotificationChannel channel = new NotificationChannel("001","cc", NotificationManager.IMPORTANCE_MIN);
         channel.setLightColor( Color.BLUE );
         channel.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
         NotificationManager notificationManager = (NotificationManager)getSystemService(this.NOTIFICATION_SERVICE);
@@ -94,7 +94,7 @@ public class AudioService extends Service implements MediaPlayer.OnPreparedListe
                 .setContentTitle("Playing")
                 .setContentText(audioTitle);
 
-        NotificationChannel notificationChannel = new NotificationChannel("001", "NOTIFICATION_CHANNEL_NAME", NotificationManager.IMPORTANCE_DEFAULT);
+        NotificationChannel notificationChannel = new NotificationChannel("001", "cc", NotificationManager.IMPORTANCE_NONE);
         builder.setChannelId("001");
         Notification notification = builder.build();
         startForeground(NOTIFY_ID, notification);

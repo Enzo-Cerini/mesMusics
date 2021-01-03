@@ -81,7 +81,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/Artiste" />
 
                 <TextView
-                    android:id="@+id/Temps"
+                    android:id="@+id/Duree"
                     android:layout_width="346dp"
                     android:layout_height="56dp"
                     android:layout_marginTop="20dp"
@@ -104,7 +104,7 @@
                     android:text="Retour"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/Temps" />
+                    app:layout_constraintTop_toBottomOf="@+id/Duree" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
