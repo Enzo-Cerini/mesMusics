@@ -51,9 +51,9 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="27dp"
-        android:layout_marginEnd="84dp"
-        android:layout_marginRight="84dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="72dp"
+        android:layout_marginRight="72dp"
         android:fontFamily="serif"
         android:text="3:05"
         android:textColor="#000000" />
@@ -65,9 +65,9 @@
         android:layout_below="@id/tv_duration"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="-27dp"
-        android:layout_marginEnd="129dp"
-        android:layout_marginRight="129dp"
+        android:layout_marginTop="-22dp"
+        android:layout_marginEnd="124dp"
+        android:layout_marginRight="124dp"
         android:src="@drawable/ic_play_circle_outline_black"
         android:visibility="invisible" />
 
@@ -78,7 +78,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="13dp"
+        android:layout_marginEnd="10dp"
         android:onClick="swithToConfirmPlaylist"
         android:scaleType="centerCrop"
         app:srcCompat="@drawable/plus" />
