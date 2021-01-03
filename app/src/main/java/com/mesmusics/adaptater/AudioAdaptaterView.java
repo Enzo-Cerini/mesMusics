@@ -126,7 +126,7 @@ public class AudioAdaptaterView extends BaseAdapter {
 
     @SuppressLint("ResourceAsColor")
     public void changeSelectedRow(View view){
-        view.setBackgroundColor(R.color.black);
+        view.setBackgroundResource(R.color.orange);
         ((ImageView)view.findViewById(R.id.iv_play_active)).setVisibility(View.VISIBLE);
         notifyDataSetChanged();
     }
