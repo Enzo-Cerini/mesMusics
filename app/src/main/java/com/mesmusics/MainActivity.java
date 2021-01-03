@@ -125,6 +125,13 @@ public class MainActivity extends AppCompatActivity implements MediaController.M
     public void addToPlaylist(View view){
         Utility.addToPlaylist(this,view,audioFileManager.getAudioFiles());
     }
+    public void swithToConfirmPlaylist(View view){
+        Intent myIntent = new Intent(getBaseContext(), PlaylistActivity.class);
+        //myIntent.putExtra("path",audioFileManager.getAudioFiles().get((Integer)view.getTag()).getPath());
+        //myIntent.putExtra("title",audioFileManager.getAudioFiles().get((Integer)view.getTag()).getTitle());
+        startActivityForResult(myIntent, 0);
+        //Utility.addToPlaylist(this,view,audioFileManager.getAudioFiles());
+    }
 
     public void switchToAccueil(View view){
         ListView listView = findViewById(R.id.lv);
@@ -153,23 +160,29 @@ public class MainActivity extends AppCompatActivity implements MediaController.M
     }
 
     public void switchToPlaylist(View view){
-
-        ListView listView = findViewById(R.id.lv);
         playlistFiles = Utility.readPlayList(this);
-        audioService.setAudioFiles(playlistFiles);
-        audioAdaptaterView = new AudioAdaptaterView(this, playlistFiles, audioService);
-        listView.setAdapter(audioAdaptaterView);
-        currentAudioFiles = playlistFiles;
-        reset();
-        Button button = ( (Button)findViewById(R.id.button2) );
-        button.setText("Accueil");
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switchToAccueil(v);
-            }
-        });
-        handleSeekbar();
+        if(playlistFiles.size() > 0) {
+            ListView listView = findViewById(R.id.lv);
+
+            System.out.println(playlistFiles);
+            audioService.setAudioFiles(playlistFiles);
+            audioAdaptaterView = new AudioAdaptaterView(this, playlistFiles, audioService);
+            listView.setAdapter(audioAdaptaterView);
+            currentAudioFiles = playlistFiles;
+            reset();
+            Button button = ((Button) findViewById(R.id.button2));
+            button.setText("Accueil");
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    switchToAccueil(v);
+                }
+            });
+            handleSeekbar();
+        }
+        else{
+            Toast.makeText(this, "La playslist est vide !", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void initAudios(){
@@ -354,9 +367,7 @@ public class MainActivity extends AppCompatActivity implements MediaController.M
             }
 
             @Override
-            public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
-            }
+            public void onAccuracyChanged(Sensor sensor, int accuracy) { }
         },sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE),SensorManager.SENSOR_DELAY_UI );
     }
 
