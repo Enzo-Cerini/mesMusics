@@ -46,23 +46,34 @@
         android:id="@+id/tv_duration"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/imageButton2"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginEnd="77dp"
-        android:layout_marginRight="77dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="79dp"
+        android:layout_marginRight="79dp"
         android:text="3:05"
         android:textColor="#000000" />
 
+    <ImageView
+        android:id="@+id/iv_play_active"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_below="@id/tv_duration"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="86dp"
+        android:layout_marginRight="86dp"
+        android:src="@drawable/ic_play_circle_outline_black"
+        android:visibility="invisible" />
+
     <ImageButton
         android:id="@+id/imageButton2"
-        android:layout_width="48dp"
-        android:layout_height="32dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="22dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="13dp"
         android:onClick="addToPlaylist"
         android:scaleType="centerCrop"
         app:srcCompat="@drawable/plus" />
