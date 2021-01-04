@@ -86,9 +86,8 @@ Notre application nécéssite plusieurs permissions énuméré dans le AndroidMa
 * **_READ_EXTERNAL_STORAGE_**, afin de pouvoir lire le stockage externe.
 * **_FOREGROUND_SERVICE_**, afin de pouvoir lire une musique en arrière-plan.
 
-
 ## :black_medium_square: Services d'arrière-plan 
-L'utilisateur a également  la possibilité d'écouter de la musique en arrière plan. Pour cela, nous avons crée dans la classe AudioService, la méthode onPrepare() à laquelle on a rajouté un Intent du MainActivity afin de créer ensuite un pendingIntent qui va permettre de gérer la musique en arrière-plan. Nous avons rajouter à cela, une notifcation afin d'afficher les bouton "Lecture" et "Pause" sur la barre de notification de l'utilisateur.
+L'utilisateur a également  la possibilité d'écouter de la musique en arrière plan. Pour cela, nous avons crée dans la classe AudioService, la méthode onPrepare() à laquelle on a rajouté un Intent du MainActivity afin de créer un pendingIntent qui va nous permettre de gérer la musique en arrière-plan. Nous avons rajouter à cela, une notification afin d'afficher le titre de la musique en cours.
 
 ## :black_medium_square: Capteurs de mouvement utilisés
 L'utilisateur a également la possibilité de contrôler la lecture de ses musiques en utilisant les capteurs de mouvement du téléphone. Pour cela, nous avons enregistré un Listener dans la méthode onResume() du MainActivity. Puis, nous avons appliqué la méthode registerListener sur l'attribut sensorManager. De plus, nous avons notamment passé en paramètre de cette méthode un new SensorEventListener dans lequel nous avons redéfinis la méthode onSensorChanged(). 
@@ -100,7 +99,7 @@ Nous y avons attribué en fonction de l'inclinaison du téléphone
 Nous avons également utilisé un Thread pour notre application.
 En passant en paramètre de la méthode runOnUIThread() un new Runable, nous avons redéfinis la méthode run(). 
 * Dans cette dernière, nous avons configuré notre SeekBar en paramètrant son maximum en fonction de la taille de la musique et en affichant le mouvement de la barre de progression grâce à la méthode setProgress.currentPosition().
-* Le texte montrant le temps de la musique qui défile a égéalment été mis en place à l'aide d'un Thread. Ainsi, à chaque seconde qui passe le temps en seconde et incrémenté.
+* Le texte montrant le temps de la musique qui défile a également été mis en place à l'aide de ce Thread. Ainsi, à chaque seconde qui passe, le temps en seconde est incrémenté.
 
 ## :black_medium_square: Autres
 Deux versions de ce fichier ont été réalisées :
