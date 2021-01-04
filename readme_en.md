@@ -109,7 +109,9 @@ By passing a new Runable as a parameter of the runOnUIThread() method, we have r
 Two versions of this file have been produced :
 * french version (readme_fr.md)
 * english version (readme_en.md)
+
 In addition, this file is more readable on the GitHub platform.
+
 The link to the project repository: https://github.com/Enzo-Cerini/mesMusics.git
 
 ## :black_medium_square: Authors
