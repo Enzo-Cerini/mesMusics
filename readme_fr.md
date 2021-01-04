@@ -90,8 +90,8 @@ Notre application nécéssite plusieurs permissions énuméré dans le AndroidMa
 L'utilisateur a également  la possibilité d'écouter de la musique en arrière plan. Pour cela, nous avons crée dans la classe AudioService, la méthode onPrepare() à laquelle on a rajouté un Intent du MainActivity afin de créer un pendingIntent qui va nous permettre de gérer la musique en arrière-plan. Nous avons rajouter à cela, une notification afin d'afficher le titre de la musique en cours.
 
 ## :black_medium_square: Capteurs de mouvement utilisés
-L'utilisateur a également la possibilité de contrôler la lecture de ses musiques en utilisant les capteurs de mouvement du téléphone. Pour cela, nous avons enregistré un Listener dans la méthode onResume() du MainActivity. Puis, nous avons appliqué la méthode registerListener sur l'attribut sensorManager. De plus, nous avons notamment passé en paramètre de cette méthode un new SensorEventListener dans lequel nous avons redéfinis la méthode onSensorChanged(). 
-Nous y avons attribué en fonction de l'inclinaison du téléphone 
+L'utilisateur a également la possibilité de contrôler la lecture de ses musiques en utilisant les capteurs de mouvement du téléphone. Pour cela, nous avons enregistré un Listener dans la méthode onResume() du MainActivity. Puis, nous avons appliqué la méthode registerListener() sur l'attribut sensorManager. De plus, nous avons notamment passé en paramètre de cette méthode un new SensorEventListener dans lequel nous avons redéfinis la méthode onSensorChanged(). 
+Nous y avons attribué en fonction de l'inclinaison du téléphone :
 * sur l'axe X, les évènements **Suivant** et **Précédent**.
 * sur l'axe Z, les évènements **Lecture** et **Pause**.
 
