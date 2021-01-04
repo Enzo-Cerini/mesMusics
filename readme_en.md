@@ -53,62 +53,65 @@ Use this activity to view details of the selected music such as title, artist, a
 Our application break down into activities that are distinct from each other.
 The methods of our different activities must be able to link and call each other, this is why we must set up a communication between them using **_Intents_**.
 These allow you to send messages from one activity to another. 
-* So we use in the MainActivity, an **_Intent_** nommé *"playIntent"* qui nous permet de lancer notre application à travers la méthode **_onStart()_**. Cette Intent est également utilisé lorsque l'application est détruite, soit dans la méthode **_onDestroy()_**.
-Nous utilisons également des Intents afin de pouvoir naviguer à travers les différentes activités, soit vers l'activité AddPlaylistActivity (swithToConfirmPlaylist) ou encore vers l'activité AudioInfoActivity (switchToAudioInfos()).
-* Nous utilisons également un **_Intent_** nommé *myIntent* crée dans la classe AddPlaylistActivity afin de pouvoir revenir sur la page d'accueil de l'application.
-* Enfin, nous utilisons un **_Intent_** dans la classe AudioInfosActivity afin de pouvoir retourner sur l'accueil de l'application.
+* So we use in the MainActivity, an **_Intent_** named *"playIntent"* which allows us to launch our application through the method **_onStart()_**. This Intent is also used when the application is destroyed, either in the method **_onDestroy()_**.
+We also use Intents in order to be able to navigate through the different activities, either towards the AddPlaylistActivity activity (swithToConfirmPlaylist) or to the AudioInfoActivity activity  (switchToAudioInfos()).
+* We also use an **_Intent_** named *myIntent* created in AddPlaylistActivity class in order to be able to return to the home page of the application.
+* Finally, we use an **_Intent_** in the AudioInfosActivity class in order to be able to return to the home page of the application.
 
 ## :black_medium_square: Classes
 
 ### :black_medium_small_square: *AudioFile*
-La classe **AudioFile** nous permet de récupérer toutes les informations de notre musique.
-Elle contient donc le chemin, le titre, l'album, l'artiste et la durée de la musique. Nous avons donc mis en place des *getter()* et des *setter()* afin de pouvoir récuperer et modifier chaques informations utiles tels que *getTitle()* ou encore *setTitle()*.
+The **AudioFile** class allows us to retrieve all the information about our music.
+It contains the path, title, album, artist and duration of the music. We have therefore set up *getter()* and *setter()* in order to be able to retrieve and modify any useful information such as *getTitle()* or *setTitle()*.
 
 ### :black_medium_small_square: *AudioFileManager*
-La classe **AudioFileManager** nous permet de récupérer et stocker les différentes musiques et leurs informations (chemin, titre, artiste...) en les conservant dans une liste de type *ArrayList*. De plus, les musiques sont stockées sous-forme d'objet *AudioFile*.
+The **AudioFileManager** class allows us to retrieve and store the different music and their information (path, title, artist...) by keeping them in a list of type *ArrayList*. In addition, the music is stored as an *AudioFile* object.
  
 ### :black_medium_small_square: *AudioService*
-La classe **AudioService** hérite de la classe **Service** et implémentes les différentes interfaces suivantes :
+The **AudioService** class inherits from the **Service** class and implements the following different interfaces :
 * **MediaPlayer.OnPreparedListener**
 * **MediaPlayer.OnErrorListener**
 * **MediaPlayer.OnCompletionListener**
 
-Cette classe nous permet de mettre en place les différentes fonctionnalités désirées par l'utilisateur. De ce fait, la méthode **_onPrepared()_** permet le démarrage du MediaPlayer et permet la visualisation d'une notification lorsque qu'une musique est lancée par l'utilisateur. Elle permet notamment de mettre en marche les différents boutons mis en place sur notre applications tels que : **_Lecture - Pause - Suivant - Précédent_** et cela grâce aux méthodes :
-* playAudio() pour lancer une musique et startAudio() pour la lire.
-* pausePlayer() pour mettre pause.
-* playNext() pour lancer la musique suivante.
-* playPrev() pour revenir à la musique précédente.
+This class allows us to set up the various functionalities desired by the user. Therefore, the method **_onPrepared()_** allows the start of the MediaPlayer and allows the visualization of a notification when a music is started by the user.
+It allows in particular to turn on the various buttons set up on our applications such as : **_ Play - Pause - Next - Previous_** and this thanks to the methods :
+* playAudio() to start music and startAudio() to play it.
+* pausePlayer() to pause.
+* playNext() to start the next music
+* playPrev() to return to the previous music.
 
 ## :black_medium_square: Permissions 
-Notre application nécéssite plusieurs permissions énuméré dans le AndroidManifest tels que :
-* **_INTERNET_**, afin d'avoir l'accès à Internet.
-* **_WAKE_LOCK_**, afin de laisser le téléphone déverrouillé quand l'utilisateur lis une musique.
-* **_WRITE_EXTERNAL_STORAGE_**, afin de pouvoir écrire sur le stockage externe.
-* **_READ_EXTERNAL_STORAGE_**, afin de pouvoir lire le stockage externe.
-* **_FOREGROUND_SERVICE_**, afin de pouvoir lire une musique en arrière-plan.
+Our app requires several permissions listed in the AndroidManifest such as:
+* **_INTERNET_**, in order to have Internet access.
+* **_WAKE_LOCK_**, in order to leave the phone unlocked when the user is playing music.
+* **_WRITE_EXTERNAL_STORAGE_**, so that you can write to the external storage.
+* **_READ_EXTERNAL_STORAGE_**, so that you can read the external storage.
+* **_FOREGROUND_SERVICE_**, so that you can play music in the background.
 
-## :black_medium_square: Services d'arrière-plan 
+## :black_medium_square: Background services
+The user also has the option of listening to music in the background. For this, we have created in the AudioService class, the onPrepare() method to which we have added an Intent of the MainActivity in order to create a pendingIntent which will allow us to manage the music in the background. We have added to this, a notification to display the title of the current music.
+
 L'utilisateur a également  la possibilité d'écouter de la musique en arrière plan. Pour cela, nous avons crée dans la classe AudioService, la méthode onPrepare() à laquelle on a rajouté un Intent du MainActivity afin de créer un pendingIntent qui va nous permettre de gérer la musique en arrière-plan. Nous avons rajouter à cela, une notification afin d'afficher le titre de la musique en cours.
 
-## :black_medium_square: Capteurs de mouvement utilisés
-L'utilisateur a également la possibilité de contrôler la lecture de ses musiques en utilisant les capteurs de mouvement du téléphone. Pour cela, nous avons enregistré un Listener dans la méthode onResume() du MainActivity. Puis, nous avons appliqué la méthode registerListener sur l'attribut sensorManager. De plus, nous avons notamment passé en paramètre de cette méthode un new SensorEventListener dans lequel nous avons redéfinis la méthode onSensorChanged(). 
-Nous y avons attribué en fonction de l'inclinaison du téléphone 
-* sur l'axe X, les évènements **Suivant** et **Précédent**.
-* sur l'axe Z, les évènements **Lecture** et **Pause**.
+## :black_medium_square: Motion sensors used
+The user also has the option of controlling the playback of their music using the phone's motion sensors. To do this, we have registered a Listener in the onResume() method of the MainActivity. Then, we applied the registerListener() method on the sensorManager attribute. In addition, we have passed as a parameter of this method a new SensorEventListener in which we have redefined the onSensorChanged() method.
+We assigned it based on the tilt of the phone :
+* on the X axis, the **Next** and **Previous** events.
+* on the Z axis, the **Play** and **Pause** events.
 
 ## :black_medium_square: Threads
-Nous avons également utilisé un Thread pour notre application.
-En passant en paramètre de la méthode runOnUIThread() un new Runable, nous avons redéfinis la méthode run(). 
-* Dans cette dernière, nous avons configuré notre SeekBar en paramètrant son maximum en fonction de la taille de la musique et en affichant le mouvement de la barre de progression grâce à la méthode setProgress.currentPosition().
-* Le texte montrant le temps de la musique qui défile a également été mis en place à l'aide de ce Thread. Ainsi, à chaque seconde qui passe, le temps en seconde est incrémenté.
+We also used a Thread for our application.
+By passing a new Runable as a parameter of the runOnUIThread() method, we have redefined the run() method. 
+* In the latter, we have configured our SeekBar by setting its maximum according to the size of the music and by displaying the movement of the progress bar thanks to the setProgress.currentPosition() method.
+* The text showing the time of the scrolling music was also implemented using this Thread. Thus, with each passing second, the time in seconds is incremented.
 
-## :black_medium_square: Autres
-Deux versions de ce fichier ont été réalisées :
-* version française (readme_fr.md)
-* version anglaise (readme_en.md)
+## :black_medium_square: Other
+Two versions of this file have been produced :
+* french version (readme_fr.md)
+* english version (readme_en.md)
 
-## :black_medium_square: Auteurs
-**_Projet réalisé par :_**
+## :black_medium_square: Authors
+**_Project made by :_**
 * **_Salma BENCHELKHA (salmabenchelkha@gmail.com)_**
 * **_Mouncif LEKMITI (m.lekmiti@hotmail.com)_**
 * **_Enzo CERINI (cerini.enzo@gmail.com)_**
