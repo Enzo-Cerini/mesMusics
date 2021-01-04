@@ -19,15 +19,6 @@ public class AudioFile {
         this.id = id;
     }
 
-    public AudioFile() {
-        this.path = null;
-        this.title = null;
-        this.album = null;
-        this.artist = null;
-        this.duration = 0;
-        this.id = 0;
-    }
-
     public long getId() {
         return id;
     }

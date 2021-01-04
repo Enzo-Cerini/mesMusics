@@ -78,7 +78,7 @@ public class AudioService extends Service implements MediaPlayer.OnPreparedListe
         NotificationChannel channel = new NotificationChannel("001","cc", NotificationManager.IMPORTANCE_MIN);
         channel.setLightColor( Color.BLUE );
         channel.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
-        NotificationManager notificationManager = (NotificationManager)getSystemService(this.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
         notificationManager.createNotificationChannel(channel);
 
         Intent intent = new Intent(this, MainActivity.class);
@@ -98,48 +98,8 @@ public class AudioService extends Service implements MediaPlayer.OnPreparedListe
         builder.setChannelId("001");
         Notification notification = builder.build();
         startForeground(NOTIFY_ID, notification);
-
-
-    /*    val channelId = "001";
-        val channelName = "myChannel";
-        val channel = NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_NONE);
-        channel.lightColor = Color.BLUE;
-        channel.lockscreenVisibility = Notification.VISIBILITY_PRIVATE;
-        val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager;
-        manager.createNotificationChannel(channel);
-        val notification: Notification
-
-                notification = Notification.Builder(applicationContext, channelId)
-                .setOngoing(true)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setCategory(Notification.CATEGORY_SERVICE)
-                .build();
-
-        startForeground(101, notification)
-*/
-
-        //   notification.flags = Notification.FLAG_NO_CLEAR|Notification.FLAG_ONGOING_EVENT;
-        //  NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
-        // notificationManager.notify(11, notification);
-
-        //   notificationManager.notify(NOTIFY_ID , builder.build());
-
-
-        //startForeground(NOTIFY_ID, notification);
-
-       /* NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-
-        builder.setContentIntent(pendingIntent)
-                .setSmallIcon(R.drawable.selector_play)
-                .setTicker(audioTitle)
-                .setContentTitle("Playing")
-                .setContentText(audioTitle);
-
-        NotificationManagerCompat notificationManager =
-                NotificationManagerCompat.from(AudioService.this);
-.*
-        notificationManager.notify(NOTIFY_ID, builder.build());*/
     }
+
     @Override
     public boolean onError(MediaPlayer mp, int what, int extra) {
         mp.reset();
@@ -148,7 +108,6 @@ public class AudioService extends Service implements MediaPlayer.OnPreparedListe
 
     @Override
     public void onCompletion(MediaPlayer mp) {
-
     }
 
     public void setOnCompletionListener(MediaPlayer.OnCompletionListener onCompletionListener){

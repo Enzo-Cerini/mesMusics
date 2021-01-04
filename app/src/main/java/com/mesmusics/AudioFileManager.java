@@ -59,9 +59,3 @@ public class AudioFileManager {
             Toast.makeText(context, "Aucun fichier audio trouvé",Toast.LENGTH_LONG).show();
     }
 }
-
-//  https://www.youtube.com/watch?v=D9--BF-W0AY
-
-//  https://www.youtube.com/watch?v=TQg98mQL2hs
-
-//  https://www.youtube.com/watch?v=U5yDjBUSAic

@@ -11,10 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 
 public class addPlaylistActivity extends AppCompatActivity {
-    private ArrayList<AudioFile> audioFiles;
-    private View view;
-    private Context context;
-    private AudioFileManager audioFileManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,11 +28,4 @@ public class addPlaylistActivity extends AppCompatActivity {
         Intent myIntent = new Intent(getBaseContext(), MainActivity.class);
         startActivityForResult(myIntent, 0);
     }
-
-    public void start (View view, Context context){
-
-        //Utility.addToPlaylist(this, view, audioFiles);
-    }
-
 }
-

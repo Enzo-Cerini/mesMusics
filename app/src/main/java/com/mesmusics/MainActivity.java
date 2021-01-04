@@ -51,10 +51,8 @@ public class MainActivity extends AppCompatActivity implements MediaController.M
     private SensorManager sensorManager = null;
     private long previousTime;
     private float previousPosition = 0;
-
     private boolean isFirst = true;
     private TextView tvTitle;
-
     boolean isRunning = false;
 
     @Override
@@ -82,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements MediaController.M
         setContentView(R.layout.activity_main);
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSION_REQUEST);
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.FOREGROUND_SERVICE}, MY_PERMISSION_REQUEST);
         } else {
             setAudioController();
             sensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
@@ -126,7 +125,6 @@ public class MainActivity extends AppCompatActivity implements MediaController.M
     public void swithToConfirmPlaylist(View view){
         Intent myIntent = new Intent(getBaseContext(), addPlaylistActivity.class);
         int position = (Integer)((RelativeLayout)view.getParent()).getTag();
-        //View v = ( (ListView)findViewById(R.id.lv) ).getChildAt(audioService.getAudioPos());
         if(position < currentAudioFiles.size()) {   //it means that the children is visible by the user
             myIntent.putExtra("path", currentAudioFiles.get(position).getPath());
             myIntent.putExtra("title", currentAudioFiles.get(position).getTitle());
@@ -135,9 +133,8 @@ public class MainActivity extends AppCompatActivity implements MediaController.M
         else{
             Toast.makeText(this, "Impossible d'ajouter le titre a la playlist", Toast.LENGTH_SHORT).show();
         }
-
-        //Utility.addToPlaylist(this,view,audioFileManager.getAudioFiles());
     }
+
     public void switchToAudioInfos(View view){
         Intent myIntent = new Intent(getBaseContext(), AudioInfosActivity.class);
         int position = audioService.getAudioPos();
@@ -156,7 +153,6 @@ public class MainActivity extends AppCompatActivity implements MediaController.M
         Utility.addToPlaylist(this,view,audioFileManager.getAudioFiles());
     }
 
-
     public void switchToAccueil(View view){
         ListView listView = findViewById(R.id.lv);
         audioService.setAudioFiles(allAudioFiles);
@@ -164,7 +160,6 @@ public class MainActivity extends AppCompatActivity implements MediaController.M
         listView.setAdapter(audioAdaptaterView);
         currentAudioFiles = allAudioFiles;
         reset();
-        //manageToolbar();
         Button button = ( (Button)findViewById(R.id.button2) );
         button.setText("Ma playlist");
         button.setOnClickListener(new View.OnClickListener() {
@@ -188,8 +183,6 @@ public class MainActivity extends AppCompatActivity implements MediaController.M
         playlistFiles = Utility.readPlayList(this);
         if(playlistFiles.size() > 0) {
             ListView listView = findViewById(R.id.lv);
-
-            System.out.println(playlistFiles);
             audioService.setAudioFiles(playlistFiles);
             audioAdaptaterView = new AudioAdaptaterView(this, playlistFiles, audioService);
             listView.setAdapter(audioAdaptaterView);
@@ -240,7 +233,6 @@ public class MainActivity extends AppCompatActivity implements MediaController.M
         });
     }
 
-    //play next
     private void playNext(){
         audioService.playNext();
         if(playbackpaused){
@@ -259,10 +251,8 @@ public class MainActivity extends AppCompatActivity implements MediaController.M
 
     public void nextClick(View view){
         playNext();
-
     }
 
-    //play previous
     private void playPrev(){
         audioService.playPrev();
         if(playbackpaused){
@@ -283,21 +273,16 @@ public class MainActivity extends AppCompatActivity implements MediaController.M
                     audioService.seek(progress * 1000);
                 }
             }
-
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-
             }
-
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
             }
         });
     }
 
     public void audioPicked(View view){
-
         if(playbackpaused) {
             View v = ( (ListView)findViewById(R.id.lv) ).getChildAt(audioService.getAudioPos());
             if(v != null)   //it means that the children is visible by the user
@@ -336,15 +321,13 @@ public class MainActivity extends AppCompatActivity implements MediaController.M
         this.playbackpaused = playbackpaused;
     }
 
-
-
-
     @Override
     public void onDestroy() {
-        stopService(playIntent);
+        if(playIntent != null) {
+            stopService(playIntent);
+        }
         super.onDestroy();
     }
-
 
     @Override
     public void start() {
@@ -379,8 +362,6 @@ public class MainActivity extends AppCompatActivity implements MediaController.M
                         previousTime = currentTime;
                         float x = event.values[0];
                         float z = event.values[2];
-                      //  System.out.println("x = " + x);
-                      //  System.out.println("z = " + z);
                         if (x < 0 )
                             audioPicked(null);
                         if (z > 0 )
@@ -390,7 +371,6 @@ public class MainActivity extends AppCompatActivity implements MediaController.M
                     }
                 }
             }
-
             @Override
             public void onAccuracyChanged(Sensor sensor, int accuracy) { }
         },sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE),SensorManager.SENSOR_DELAY_UI );
@@ -445,9 +425,6 @@ public class MainActivity extends AppCompatActivity implements MediaController.M
     public boolean canSeekForward() {
         return true;
     }
-
-
-
 
     @Override
     public int getBufferPercentage() {

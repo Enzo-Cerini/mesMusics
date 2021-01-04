@@ -57,7 +57,6 @@ public class Utility {
             final Object value = entry.getValue();
 
             Uri audiosUri = MediaStore.Audio.Media.INTERNAL_CONTENT_URI;
-            //System.out.println(audiosUri);
             String selection = MediaStore.Audio.Media.DATA + " = ?";
             String[] args = new String[] {(String)value};
             Cursor musicCursor = musicResolver.query(audiosUri, projection, selection, args, null);
@@ -75,32 +74,22 @@ public class Utility {
                 audioFiles.add(new AudioFile(path, title, album, artist, duration,id));
             }
         }
-       // System.out.println(audioFiles);
         return audioFiles;
     }
 
     public static void addToPlaylist(Context context, View view,ArrayList<AudioFile> audioFiles){
         AudioFile audioFile = audioFiles.get((Integer)((RelativeLayout)view.getParent()).getTag());
-
-
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
-
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString(audioFile.getTitle(), audioFile.getPath());
         editor.apply();
-        System.out.println(audioFile.getPath());
-        System.out.println("addeeeeeeeeeeed");
     }
 
     public static void addToPlaylistSimple(Context context, View view,String title, String path){
-
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
-
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString(title, path);
         editor.apply();
-        System.out.println("dsxfcgvhbjnklmkjfcvbn,   "+title+" : "+path);
-        System.out.println("azertyu");
     }
 
 }
