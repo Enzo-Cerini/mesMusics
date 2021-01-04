@@ -52,7 +52,7 @@ Cette activité permet d'afficher les détails de la musique sélectionnée tels
 Notre applications se décompose en activités distinctes les unes des autres. 
 Les méthodes de nos différentes activités doivent pouvoir s'enchaîner et s'appeler, c'est pourquoi il faut mettre en place entres-elles une communication en utilisant des **_Intents_**.
 Celles-ci permettent d'envoyer des messages d'une activité vers une autre. 
-* Ainsi, nous utilisons, dans le MainActivity, un **_Intent_** nommé *"playIntent"* qui nous permet de lancer notre application à travers la méthode **_onStart()_**. Cette Intent est également utilisé lorsque l'application est détruite, soit dans la méthode **_onDestroy()_**.
+* Ainsi, nous utilisons dans le MainActivity, un **_Intent_** nommé *"playIntent"* qui nous permet de lancer notre application à travers la méthode **_onStart()_**. Cette Intent est également utilisé lorsque l'application est détruite, soit dans la méthode **_onDestroy()_**.
 Nous utilisons également des Intents afin de pouvoir naviguer à travers les différentes activités, soit vers l'activité AddPlaylistActivity (swithToConfirmPlaylist) ou encore vers l'activité AudioInfoActivity (switchToAudioInfos()).
 * Nous utilisons également un **_Intent_** nommé *myIntent* crée dans la classe AddPlaylistActivity afin de pouvoir revenir sur la page d'accueil de l'application.
 * Enfin, nous utilisons un **_Intent_** dans la classe AudioInfosActivity afin de pouvoir retourner sur l'accueil de l'application.
