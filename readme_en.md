@@ -37,25 +37,23 @@ We will detail the main methods of this class.
 * The **_onCreate()_** and **_onStart()_** procedures are also important because they allow the creation and launching of the application.
 * In addition, the **_addToPlaylist()_** procedure allows music to be added to the user's playlist using an "Add" button.
 * The procedure **_switchToAccueil()_** and **_switchToPlaylist()_** allows to switch between the home of the application and the user's playlist.
-
 * We also have implemented small methods such as **_start()_**, **_pause_**, **_playNext()_** or even **_playPrev()_** which allows you to manage the music.
 
-* Nous avons également mis en place les petites méthodes tels que **_start()_**, **_pause_**, **_playNext()_** ou encore **_playPrev()_** qui permette de gérer la musique.
-
 ### :black_medium_small_square: AddPlayslitActivity
-Cette activité permet l'ajout de musique dans la playlist de l'utilisateur à l'aide d'un bouton mis en place dans la page d'accueil de l'application. Lorsque l'utilisateur appuie sur le bouton d'ajout, un message lui est affiché afin de lui demander s'il souhaite vraiment ajouter cette musique à sa playlist. L'utilisateur répond grâce à deux boutons mis à sa disposition :
-* Ajouter, qui va permettre d'ajouter la musique à sa playlist (**_confirmAddToPlaylist()_**).
-* Annuler, qui va permettre de revenir à la page d'accueil de l'application et qui n'ajoute pas la musique sélectionné à la playlist de l'utilisateur (**_goToMenu()_**).
-Après avoir crée une playlist, l'utilisateur est en mesure d'écouter sa playlist comme il le souhaite.
+This activity allows the addition of music in the user's playlist using a button set up in the home page of the application. When the user presses the add button, a message is displayed asking him if he really wants to add this music to his playlist.
+The user responds thanks to two buttons available to him :
+* Add, which will allow you to add the music to your playlist (**_confirmAddToPlaylist()_**).
+* Cancel, which will allow to return to the home page of the application and which does not add the selected music to the user's playlist (**_goToMenu()_**).
+After creating a playlist, the user is able to listen to their playlist as they wish.
 
 ### :black_medium_small_square: AudioInfosActivity
-Cette activité permet d'afficher les détails de la musique sélectionnée tels que le titre, l'artiste, l'album et la durée. Cela grâce à la méthode **_initSongInfos()_**. Elle possède également un bouton qui va permettre de revenir à l'accueil. 
+Use this activity to view details of the selected music such as title, artist, album, and duration. This, thanks to **_initSongInfos()_** method. It also has a button that will allow you to return to the reception.
 
 ## :black_medium_square: Intents
-Notre applications se décompose en activités distinctes les unes des autres. 
-Les méthodes de nos différentes activités doivent pouvoir s'enchaîner et s'appeler, c'est pourquoi il faut mettre en place entres-elles une communication en utilisant des **_Intents_**.
-Celles-ci permettent d'envoyer des messages d'une activité vers une autre. 
-* Ainsi, nous utilisons, dans le MainActivity, un **_Intent_** nommé *"playIntent"* qui nous permet de lancer notre application à travers la méthode **_onStart()_**. Cette Intent est également utilisé lorsque l'application est détruite, soit dans la méthode **_onDestroy()_**.
+Our application break down into activities that are distinct from each other.
+The methods of our different activities must be able to link and call each other, this is why we must set up a communication between them using **_Intents_**.
+These allow you to send messages from one activity to another. 
+* So we use in the MainActivity, an **_Intent_** nommé *"playIntent"* qui nous permet de lancer notre application à travers la méthode **_onStart()_**. Cette Intent est également utilisé lorsque l'application est détruite, soit dans la méthode **_onDestroy()_**.
 Nous utilisons également des Intents afin de pouvoir naviguer à travers les différentes activités, soit vers l'activité AddPlaylistActivity (swithToConfirmPlaylist) ou encore vers l'activité AudioInfoActivity (switchToAudioInfos()).
 * Nous utilisons également un **_Intent_** nommé *myIntent* crée dans la classe AddPlaylistActivity afin de pouvoir revenir sur la page d'accueil de l'application.
 * Enfin, nous utilisons un **_Intent_** dans la classe AudioInfosActivity afin de pouvoir retourner sur l'accueil de l'application.
