@@ -105,6 +105,7 @@ En passant en paramètre de la méthode runOnUIThread() un new Runable, nous avo
 Deux versions de ce fichier ont été réalisées :
 * version française (readme_fr.md)
 * version anglaise (readme_en.md)
+De plus, ce fichier est plus lisible sur la plateforme GitHub.
 
 ## :black_medium_square: Auteurs
 **_Projet réalisé par :_**
